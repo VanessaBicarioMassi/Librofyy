@@ -1,5 +1,5 @@
 import { generateId } from "../services/idGenerator";
-import {cadrastroUsuario} from "../data/userData";
+import {cadastroUsuario} from "../data/userData";
 
 export class UserBusiness {
     cadastro = async (username: string, email: string, senha: string, telefone: number, cpf: string) => {
@@ -17,7 +17,7 @@ export class UserBusiness {
             }
 
             const id = generateId();
-            const user = await cadrastroUsuario(id,username,email,senha,telefone,cpf);
+            const user = await cadastroUsuario(id,username,email,senha,telefone,cpf);
             
             return { id, username, email, telefone, cpf };
         } catch (error) {
