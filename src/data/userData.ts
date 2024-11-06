@@ -1,18 +1,23 @@
 import db from "../services/db";
 
-export const cadastroUsuario = async (id: string, username: string, email: string, senha: string, telefone: number, cpf: string) => {
+export class UserData { 
+    
+    cadastroUsuario = async ( id: string, username: string, email: string, senha: string, telefone: string, cpf: string, role: string ) => {
     try {
-        const result = await db("Usuarios").insert({
+        const result = await db("usuarios").insert({
             id,
             username,
             email,
             senha,
             telefone,
-            cpf
+            cpf,
+            role
         });
-        return {message: "Usuário cadastrado com sucesso"};
-    } catch (error) {
+
+        return { idInserido: result[0] };
+    } catch (error: any) {
+        console.error("Erro ao cadastrar usuário no banco de dados:", error.message);
         throw new Error("Erro ao cadastrar usuário. Tente novamente mais tarde.");
     }
-};
-
+}
+}

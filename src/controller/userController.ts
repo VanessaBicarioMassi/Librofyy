@@ -1,22 +1,22 @@
 import { Request, Response } from "express";
 import { UserBusiness } from "../business/userBusiness";
 
-const userBusiness = new UserBusiness();
-
 export class UserController{
+    userBusiness = new UserBusiness();
     cadastro = async(req: Request, res: Response) =>{
         try {
-            const { username, email, senha, telefone, cpf } = req.body
-            const result = await userBusiness.cadastro(
+            const { username, email, senha, telefone, cpf, role } = req.body
+            const result = await this.userBusiness.cadastro(
                username,
                email,
                senha,
                telefone,
-               cpf
+               cpf,
+               role
             );
-            res.status(200).send(result);
+            res.send(result);
          } catch (error:any) {
-            res.status(401).send("Não foi possível cadastrar o usuário");
+            res.status(500).send("Não foi possível cadastrar o usuário");
         }
     }
 }

@@ -1,8 +1,9 @@
 import { generateId } from "../services/idGenerator";
-import {cadastroUsuario} from "../data/userData";
+import { UserData } from "../data/userData";
 
 export class UserBusiness {
-    cadastro = async (username: string, email: string, senha: string, telefone: number, cpf: string) => {
+    userData = new UserData
+    cadastro = async ( username: string, email: string, senha: string, telefone: string, cpf: string, role: string ) => {
         try {
             if (!username || !email || !senha) {
                 throw new Error("Campos vazios");
@@ -17,12 +18,12 @@ export class UserBusiness {
             }
 
             const id = generateId();
-            const user = await cadastroUsuario(id,username,email,senha,telefone,cpf);
+            const user = await this.userData.cadastroUsuario(id, username, email, senha, telefone, cpf, role);
             
-            return { id, username, email, telefone, cpf };
-        } catch (error) {
-            console.error(error);
-            throw error;
+            return { user };
+        } catch (error: any) {
+            console.error("Erro no cadastro do usuário:", error.message);
+            throw new Error("Erro ao processar cadastro do usuário");
         }
     };
 }
