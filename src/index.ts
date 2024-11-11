@@ -3,12 +3,11 @@ import { userRouter } from "./routers/userRouter";
 
 app.post('/users/cadastro', userRouter);
 
-// 1
 app.post('users/login', userRouter);
-// 2
-//app.post('/users/atualizarDadosEsp', userRouter)
-// 3
-//app.post('/users/atualizarDados', userRouter)
+
+app.patch('/users/atualizarSenha', userRouter);
+
+//app.put('/users/atualizarDados', userRouter)
 //4
 //app.post('/users/deletarUser', userRouter)
 //5

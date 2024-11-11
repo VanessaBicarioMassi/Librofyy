@@ -20,10 +20,29 @@ export class UserData {
             throw new Error("Erro ao cadastrar usuário. Tente novamente mais tarde.");
         }
     }
+    
     buscarUsuarioPorEmail = async (email: string) => {
         try {
-            const [user] = await db('to_do_list_users').where({ email });
+            const [user] = await db('usuarios').where({ email });
             return user;
+        } catch (error: any) {
+            throw new Error(error.sqlMessage || error.message);
+        }
+    }
+
+    buscarUsuarioPorId = async (id: string) => {
+        try {
+            const [user] = await db('usuarios').where({ id });
+            return user;
+        } catch (error: any) {
+            throw new Error(error.sqlMessage || error.message);
+        }
+    }
+
+    alterarSenha = async (email: string, password: string) => {
+        try {
+            const novaSenha = await db('usuarios').where({email}).update({password: password})
+            return novaSenha;
         } catch (error: any) {
             throw new Error(error.sqlMessage || error.message);
         }

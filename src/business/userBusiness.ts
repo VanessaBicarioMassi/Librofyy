@@ -1,13 +1,14 @@
 import { generateId } from "../services/idGenerator";
 import { UserData } from "../data/userData";
-import { generateToken, payload } from "../services/token";
+import { generateToken, payload, verifyToken } from "../services/token";
 import { userRole } from "../types/user";
+
 
 export class UserBusiness {
     userData = new UserData
-    cadastro = async ( username: string, email: string, senha: string, telefone: string, cpf: string, role: string ) => {
+    cadastro = async (username: string, email: string, senha: string, telefone: string, cpf: string, role: string) => {
         try {
-            if (!username || !email || !senha) {
+            if (!username || !email || !senha || !telefone || !cpf || !role) {
                 throw new Error("Campos vazios");
             }
 
@@ -30,7 +31,7 @@ export class UserBusiness {
             const token = await generateToken(payload)
 
             return token
-            
+
         } catch (error: any) {
             console.error("Erro no cadastro do usuário:", error.message);
             throw new Error("Erro ao processar cadastro do usuário");
@@ -60,5 +61,32 @@ export class UserBusiness {
         } catch (error: any) {
             throw new Error("Erro ao efetuar o login do usuário")
         }
-    }
+    };
+    
+    atualizarSenha = async (token: string, newPassword: string) => {
+        try {
+            if (!token || !newPassword) {
+                throw new Error("Token ou senha faltantes");
+            }
+
+            const payload = verifyToken(token); 
+            if (!payload) {
+                throw new Error("Token inválido ou expirado");
+            }
+
+            const user = await this.userData.buscarUsuarioPorId(payload.id);
+            if (!user) {
+                throw new Error("Usuário inexistente");
+            }
+
+            await this.userData.alterarSenha(user.id, newPassword);
+
+            return { message: "Senha atualizada com sucesso" };
+        } catch (error: any) {
+            console.error("Erro ao alterar a senha:", error.message);
+            throw new Error("Erro ao processar atualização de senha");
+        }
+    };
 }
+
+

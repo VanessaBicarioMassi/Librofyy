@@ -27,5 +27,23 @@ export class UserController{
         } catch (error: any) {
             res.status(500).send("Não foi possível realizar o login"); 
         }
+    };
+    
+    atualizarSenha = async (req: Request, res: Response) => {
+        try {
+            const token = req.headers.authorization;
+            const { newPassword } = req.body;
+
+            if (!token) {
+                return res.status(401).send("Token de autenticação não fornecido");
+            }
+
+            const result = await this.userBusiness.atualizarSenha(token, newPassword);
+            res.status(200).send(result);
+        } catch (error: any) {
+            res.status(500).send("Não foi possível alterar a senha"); 
+    
+            
+        }
     }
 }
