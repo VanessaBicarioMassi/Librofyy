@@ -16,7 +16,16 @@ export class UserController{
             );
             res.send(result);
          } catch (error:any) {
-            res.status(500).send("Não foi possível cadastrar o usuário");
+            res.status(500).send("Não foi possível cadastrar o usuário"); 
+        }
+    }
+    login = async (req: Request, res: Response) => {
+        try {
+            const { email, password } = req.body;
+            const result = this.userBusiness.login(email, password);
+            res.send(result);
+        } catch (error: any) {
+            res.status(500).send("Não foi possível realizar o login"); 
         }
     }
 }

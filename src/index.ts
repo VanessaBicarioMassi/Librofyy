@@ -4,7 +4,7 @@ import { userRouter } from "./routers/userRouter";
 app.post('/users/cadastro', userRouter);
 
 // 1
-//app.post('users/login', userRouter)
+app.post('users/login', userRouter);
 // 2
 //app.post('/users/atualizarDadosEsp', userRouter)
 // 3
