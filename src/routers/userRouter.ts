@@ -1,10 +1,10 @@
 import express from "express";
-import {UserController} from "../controller/userController";
+import { UserController } from "../controller/userController";
 
 export const userRouter = express.Router();
 
-const userController = new UserController()
+const userController = new UserController();
 
 userRouter.post("/cadastro", userController.cadastro);
-userRouter.post("/login", userController.login);
 userRouter.post("/atualizarSenha", userController.atualizarSenha);
+userRouter.post("/login", userController.login);
