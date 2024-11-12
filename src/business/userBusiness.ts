@@ -19,6 +19,11 @@ export class UserBusiness {
             if (senha.length < 6) {
                 throw new Error("Senha inválida");
             }
+            
+            const existingUser = await this.userData.buscarUsuarioPorEmail(email);
+            if (existingUser) {
+                throw new Error("Email já está em uso.");
+            }
 
             const id = generateId();
             await this.userData.cadastroUsuario(id, username, email, senha, telefone, cpf, role);
