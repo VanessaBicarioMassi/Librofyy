@@ -7,8 +7,8 @@ app.post('users/login', userRouter);
 
 app.patch('/users/atualizarSenha', userRouter);
 
-//app.put('/users/atualizarDados', userRouter)
-//4
+app.put('/users/atualizarDados', userRouter)
+
 //app.post('/users/deletarUser', userRouter)
 //5
 //app.post('/books/buscarLivros', booksRouter)

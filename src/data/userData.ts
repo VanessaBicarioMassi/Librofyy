@@ -47,4 +47,13 @@ export class UserData {
             throw new Error(error.sqlMessage || error.message);
         }
     }
+
+    alterarDados = async (id: string, newUsername: string, newEmail: string, newTelefone: string, newCpf: string) => {
+        try {
+            const novosDados = await db('usuarios').where({id}).update({username: newUsername, email: newEmail, telefone: newTelefone, cpf: newCpf})
+            return novosDados;
+        } catch (error: any) {
+            throw new Error(error.sqlMessage || error.message);
+        }
+    }
 }

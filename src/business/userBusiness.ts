@@ -92,6 +92,32 @@ export class UserBusiness {
             throw new Error("Erro ao processar atualização de senha");
         }
     };
+
+    atualizarDados = async (token: string, newUsername: string, newEmail: string, newTelefone:string, newCpf:string) => {
+        try {
+            if (!token || !newUsername || !newEmail || !newTelefone || !newCpf ) {
+                throw new Error("Token ou campos faltantes");
+            }
+
+            const payload = verifyToken(token); 
+            if (!payload) {
+                throw new Error("Token inválido ou expirado");
+            }
+
+            const user = await this.userData.buscarUsuarioPorId(payload.id);
+            if (!user) {
+                throw new Error("Usuário inexistente");
+            }
+
+            await this.userData.alterarDados(user.id, newUsername, newEmail, newTelefone, newCpf);
+
+            return { message: "Senha atualizada com sucesso" };
+
+        } catch (error: any) {
+            console.error("Erro ao alterar a senha:", error.message);
+            throw new Error("Erro ao processar atualização de senha");
+        }
+    }
 }
 
 

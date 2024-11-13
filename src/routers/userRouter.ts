@@ -8,3 +8,4 @@ const userController = new UserController();
 userRouter.post("/cadastro", userController.cadastro);
 userRouter.post("/atualizarSenha", userController.atualizarSenha);
 userRouter.post("/login", userController.login);
+userRouter.put("/atualizarDados", userController.atualizarDados);

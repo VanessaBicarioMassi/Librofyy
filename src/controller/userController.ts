@@ -48,4 +48,16 @@ export class UserController {
             res.send(message);
         }
     };
+
+    atualizarDados = async (req: Request, res: Response) => {
+        try {
+            const token = req.headers.authorization;
+            const { newUsername, newEmail, newTelefone, newCpf } = req.body;
+            const result = await this.userBusiness.atualizarDados(token as string, newUsername, newEmail, newTelefone, newCpf);
+            res.send(result);
+        }catch (error: any) {
+            const message = error.message || "Não foi possível alterar os dados" 
+            res.send(message);
+        }
+    }
 }
