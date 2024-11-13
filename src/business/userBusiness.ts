@@ -118,6 +118,31 @@ export class UserBusiness {
             throw new Error("Erro ao processar atualização de senha");
         }
     }
+
+    deletarUsuario = async ( token: string ) => {
+        try {
+            if (!token ) {
+                throw new Error("Token faltante");
+            }
+
+            const payload = verifyToken(token); 
+            if (!payload) {
+                throw new Error("Token inválido ou expirado");
+            }
+
+            const user = await this.userData.buscarUsuarioPorId(payload.id);
+            if (!user) {
+                throw new Error("Usuário inexistente");
+            }
+
+            const result =await this.userData.deletarUsuario(user.id);
+            return result;
+            
+        } catch (error: any) {
+            console.error("Erro ao alterar a senha:", error.message);
+            throw new Error("Erro ao processar atualização de senha");
+        }
+    }
 }
 
 

@@ -39,9 +39,9 @@ export class UserData {
         }
     }
 
-    alterarSenha = async (email: string, password: string) => {
+    alterarSenha = async (id: string, newPassword: string) => {
         try {
-            const novaSenha = await db('usuarios').where({email}).update({password: password})
+            const novaSenha = await db('usuarios').where({id}).update({password: newPassword})
             return novaSenha;
         } catch (error: any) {
             throw new Error(error.sqlMessage || error.message);
@@ -52,6 +52,16 @@ export class UserData {
         try {
             const novosDados = await db('usuarios').where({id}).update({username: newUsername, email: newEmail, telefone: newTelefone, cpf: newCpf})
             return novosDados;
+        } catch (error: any) {
+            throw new Error(error.sqlMessage || error.message);
+        }
+    }
+
+    deletarUsuario = async ( id: string ) => {
+        try {
+            await db('usuarios').where({ id }).delete();
+            return { message: "Usuário deletado com sucesso"};
+
         } catch (error: any) {
             throw new Error(error.sqlMessage || error.message);
         }
