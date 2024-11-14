@@ -1,5 +1,6 @@
 import {app} from "./App";
 import { userRouter } from "./routers/userRouter";
+import {booksRouter} from "./routers/booksRouter"
 
 app.post('/users/cadastro', userRouter);
 
@@ -7,11 +8,11 @@ app.post('users/login', userRouter);
 
 app.patch('/users/atualizarSenha', userRouter);
 
-app.put('/users/atualizarDados', userRouter)
+app.put('/users/atualizarDados', userRouter);
 
-app.post('/users/deletarUser', userRouter)
-//5
-//app.post('/books/buscarLivros', booksRouter)
+app.delete('/users/deletarUser', userRouter);
+
+app.get('/books/buscarLivros', booksRouter);
 //6
 //app.post('/books/bucarTodosLivros', booksRouter)
 //7
