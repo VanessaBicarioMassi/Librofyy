@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { userRouter } from "./routers/userRouter";
 import { booksRouter } from "./routers/booksRouter";
+import { rentsRouter } from "./routers/rentsRouter";
 import db from "./services/db";
 
 export const app = express();
