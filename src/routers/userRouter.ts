@@ -7,6 +7,6 @@ const userController = new UserController();
 
 userRouter.post("/cadastro", userController.cadastro);
 userRouter.post("/login", userController.login);
-userRouter.post("/atualizarSenha", userController.atualizarSenha);
+userRouter.patch("/atualizarSenha", userController.atualizarSenha);
 userRouter.put("/atualizarDados", userController.atualizarDados);
 userRouter.delete("/deletarUsuario", userController.deletarUsuario);

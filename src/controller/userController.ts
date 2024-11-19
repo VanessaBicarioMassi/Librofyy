@@ -69,7 +69,7 @@ export class UserController {
             res.send(result);
 
         } catch (error: any) {
-            const message = error.message || "Não foi possível alterar os dados" 
+            const message = error.message || "Não foi possível deletar o usuário" 
             res.send(message);
         }
     }

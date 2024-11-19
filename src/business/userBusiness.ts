@@ -5,7 +5,12 @@ import { userRole } from "../types/user";
 
 
 export class UserBusiness {
-    userData = new UserData
+    private userData: UserData;
+
+    constructor() {
+        this.userData = new UserData();
+    }
+    
     cadastro = async (username: string, email: string, senha: string, telefone: string, cpf: string, role: string) => {
         try {
             if (!username || !email || !senha || !telefone || !cpf || !role) {
