@@ -10,14 +10,13 @@ export class UserController {
 
     cadastro = async (req: Request, res: Response) => {
         try {
-            const { username, email, senha, telefone, cpf, role } = req.body;
+            const { username, email, senha, telefone, cpf } = req.body;
             const result = await this.userBusiness.cadastro(
                 username,
                 email,
                 senha,
                 telefone,
-                cpf,
-                role
+                cpf
             );
             res.send(result);
         } catch (error: any) {

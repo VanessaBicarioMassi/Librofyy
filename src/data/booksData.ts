@@ -27,5 +27,16 @@ export class BooksData {
             throw new Error(error.sqlMessage || error.message);
         }
     }
+
+    buscarLivroPorId = async ( id: string) => {
+        try {
+            const [livro] = await db('livros').where({ id });
+            return livro;
+        } catch (error: any) {
+            throw new Error(error.sqlMessage || error.message);
+        }
+
+
+    }
     
 }

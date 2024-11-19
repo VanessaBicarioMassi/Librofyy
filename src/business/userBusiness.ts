@@ -11,9 +11,9 @@ export class UserBusiness {
         this.userData = new UserData();
     }
     
-    cadastro = async (username: string, email: string, senha: string, telefone: string, cpf: string, role: string) => {
+    cadastro = async (username: string, email: string, senha: string, telefone: string, cpf: string) => {
         try {
-            if (!username || !email || !senha || !telefone || !cpf || !role) {
+            if (!username || !email || !senha || !telefone || !cpf ) {
                 throw new Error("Campos vazios");
             }
 
@@ -31,11 +31,14 @@ export class UserBusiness {
             }
 
             const id = generateId();
-            await this.userData.cadastroUsuario(id, username, email, senha, telefone, cpf, role);
+            const cargo = "USER"
+            await this.userData.cadastroUsuario(id as string, username, email, senha, telefone, cpf, cargo);
+
+            
 
             const payload: payload = {
                 id: id,
-                role: role as userRole
+                role: cargo as userRole
             }
 
             const token = await generateToken(payload)
@@ -61,7 +64,7 @@ export class UserBusiness {
 
             const payload: payload = {
                 id: user.id,
-                role: user.role
+                role: user.cargo
             }
 
             const token = await generateToken(payload)

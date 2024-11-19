@@ -2,7 +2,7 @@ import db from "../services/db";
 
 export class UserData {
 
-    cadastroUsuario = async (id: string, username: string, email: string, senha: string, telefone: string, cpf: string, role: string) => {
+    cadastroUsuario = async (id: string, username: string, email: string, senha: string, telefone: string, cpf: string, cargo: string) => {
         try {
             const result = await db("usuarios").insert({
                 id,
@@ -11,7 +11,7 @@ export class UserData {
                 senha,
                 telefone,
                 cpf,
-                role
+                cargo
             });
 
             return { idInserido: result[0] };

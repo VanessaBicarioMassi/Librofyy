@@ -15,10 +15,10 @@ app.delete('/users/deletarUsuario', userRouter);
 
 app.get('/books/buscarLivros', booksRouter);
 
-app.post('/rent/adicionarLivros', rentsRouter);
+app.post('/rent/alugarLivros', rentsRouter);
 
-//app.delete('/rent/deletarEmprestimo', rentRouter)
-//8
-//app.get('/rent/buscarLivros', rentRouter)
-//9
+app.get('/rent/buscarLivros', rentsRouter)
+
+//app.delete('/rent/deletarEmprestimo', rentsRouter)
+
 
