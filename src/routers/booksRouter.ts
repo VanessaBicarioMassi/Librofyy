@@ -5,4 +5,4 @@ export const booksRouter = express.Router();
 
 const booksController = new BooksController();
 
-booksRouter.post("/buscarLivros", booksController.buscarLivros);
+booksRouter.get("/buscarLivros", booksController.buscarLivros);

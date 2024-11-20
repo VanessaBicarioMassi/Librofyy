@@ -51,8 +51,8 @@ export class UserController {
     atualizarDados = async (req: Request, res: Response) => {
         try {
             const token = req.headers.authorization;
-            const { newUsername, newEmail, newTelefone, newCpf } = req.body;
-            const result = await this.userBusiness.atualizarDados(token as string, newUsername, newEmail, newTelefone, newCpf);
+            const { newUsername, newEmail, newTelefone } = req.body;
+            const result = await this.userBusiness.atualizarDados(token as string, newUsername, newEmail, newTelefone);
             res.send(result);
 
         }catch (error: any) {

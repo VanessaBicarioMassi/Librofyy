@@ -1,5 +1,5 @@
-import * as jwt from 'jsonwebtoken'
-import { userRole } from '../types/user'
+import * as jwt from 'jsonwebtoken';
+import { userRole } from '../types/user';
 
 export async function generateToken(payload: payload) {
     return jwt.sign(
@@ -7,21 +7,20 @@ export async function generateToken(payload: payload) {
             id: payload.id,
             role: payload.role
         },
-        "sEnhaSuperForte123!",
+        process.env.JWT_SECRET as string,
         { expiresIn: "90m" }
-    )
+    );
 }
 
 export function verifyToken(token: string): payload {
     const tokenData: payload = jwt.verify(
         token,
-        "sEnhaSuperForte123!"
+        process.env.JWT_SECRET as string 
     ) as payload;
     return tokenData;
 }
 
-
 export type payload = {
     id: string,
     role: userRole
-}
+};

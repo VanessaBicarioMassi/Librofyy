@@ -14,7 +14,7 @@ export class UserData {
                 cargo
             });
 
-            return { idInserido: result[0] };
+            return { message: "Usuário cadastrado com sucesso"};
         } catch (error: any) {
             console.error("Erro ao cadastrar usuário no banco de dados:", error.message);
             throw new Error("Erro ao cadastrar usuário. Tente novamente mais tarde.");
@@ -41,17 +41,17 @@ export class UserData {
 
     alterarSenha = async (id: string, newPassword: string) => {
         try {
-            const novaSenha = await db('usuarios').where({id}).update({password: newPassword})
-            return novaSenha;
+            await db('usuarios').where({id}).update({senha: newPassword})
+            return { message: "Senha atualizada com sucesso" };
         } catch (error: any) {
             throw new Error(error.sqlMessage || error.message);
         }
     }
 
-    alterarDados = async (id: string, newUsername: string, newEmail: string, newTelefone: string, newCpf: string) => {
+    alterarDados = async (id: string, newUsername: string, newEmail: string, newTelefone: string) => {
         try {
-            const novosDados = await db('usuarios').where({id}).update({username: newUsername, email: newEmail, telefone: newTelefone, cpf: newCpf})
-            return novosDados;
+            await db('usuarios').where({id}).update({username: newUsername, email: newEmail, telefone: newTelefone})
+            return { message: "Dados atualizados com sucesso" };
         } catch (error: any) {
             throw new Error(error.sqlMessage || error.message);
         }

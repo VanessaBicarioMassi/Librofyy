@@ -7,4 +7,4 @@ const rentsController = new RentsController();
 
 rentsRouter.post("/alugarLivros", rentsController.alugarLivros);
 rentsRouter.get("/buscarLivrosDoUsuario", rentsController.buscarLivrosDoUsuario);
-rentsRouter.delete("/deletarEmprestimo", rentsController.deletarEmprestimo);
+rentsRouter.delete("/deletarEmprestimo", rentsController.cancelarEmprestimo);

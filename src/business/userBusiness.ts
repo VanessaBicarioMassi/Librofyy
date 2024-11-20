@@ -32,7 +32,7 @@ export class UserBusiness {
 
             const id = generateId();
             const cargo = "USER"
-            await this.userData.cadastroUsuario(id as string, username, email, senha, telefone, cpf, cargo);
+            const result = await this.userData.cadastroUsuario(id as string, username, email, senha, telefone, cpf, cargo);
 
             
 
@@ -47,7 +47,7 @@ export class UserBusiness {
 
         } catch (error: any) {
             console.error("Erro no cadastro do usuário:", error.message);
-            throw new Error("Erro ao processar cadastro do usuário");
+            throw new Error(error.message);
         }
     };
     login = async (email: string, password: string) => {
@@ -57,7 +57,7 @@ export class UserBusiness {
                 throw new Error("Campos faltantes")
             }
 
-            const user = this.userData.buscarUsuarioPorEmail(email) as any;
+            const user = await this.userData.buscarUsuarioPorEmail(email) as any;
             if (!user) {
                 throw new Error("Usuario inexistente");
             }
@@ -72,7 +72,7 @@ export class UserBusiness {
             return token
 
         } catch (error: any) {
-            throw new Error("Erro ao efetuar o login do usuário")
+            throw new Error(error.message || "Erro ao efetuar o login do usuário");
         }
     };
     
@@ -92,20 +92,22 @@ export class UserBusiness {
                 throw new Error("Usuário inexistente");
             }
 
-            await this.userData.alterarSenha(user.id, newPassword);
+            const result = await this.userData.alterarSenha(user.id, newPassword);
 
-            return { message: "Senha atualizada com sucesso" };
+            return result
         } catch (error: any) {
             console.error("Erro ao alterar a senha:", error.message);
             throw new Error("Erro ao processar atualização de senha");
         }
     };
 
-    atualizarDados = async (token: string, newUsername: string, newEmail: string, newTelefone:string, newCpf:string) => {
+    atualizarDados = async (token: string, newUsername: string, newEmail: string, newTelefone:string) => {
         try {
-            if (!token || !newUsername || !newEmail || !newTelefone || !newCpf ) {
+            if (!token || !newUsername || !newEmail || !newTelefone ) {
                 throw new Error("Token ou campos faltantes");
             }
+
+            //console.log("Token recebido:", token);
 
             const payload = verifyToken(token); 
             if (!payload) {
@@ -117,9 +119,9 @@ export class UserBusiness {
                 throw new Error("Usuário inexistente");
             }
 
-            await this.userData.alterarDados(user.id, newUsername, newEmail, newTelefone, newCpf);
+            const result = await this.userData.alterarDados(user.id, newUsername, newEmail, newTelefone);
 
-            return { message: "Senha atualizada com sucesso" };
+            return result
 
         } catch (error: any) {
             console.error("Erro ao alterar a senha:", error.message);

@@ -63,17 +63,25 @@ export class RentsBusiness {
         }
     }
 
-    deletarEmprestimo = async(token: string) =>{
+    cancelarEmprestimo = async(token: string, idRent: string) =>{
         try {
-            if (!token) {
-                throw new Error("Token faltante");
+            if ( !token || !idRent ) {
+                throw new Error("Campos faltantes");
             }
 
             const payload = verifyToken(token);
             if (!payload) {
                 throw new Error("Token inválido ou expirado");
             }
-            const result = await this.rentsData.deletarEmprestimo(payload.id)
+
+            const emprestimo = await this.rentsData.buscarEmprestimo(payload.id, idRent)
+            if (!emprestimo) {
+                throw new Error("Empréstimo não encontrado.");
+            }
+
+            const result = await this.rentsData.cancelarEmprestimo(payload.id, idRent);
+            return result;
+
             return result; 
         } catch (error: any) {
             throw new Error(error.message || "Erro ao cancelar empréstimo");
