@@ -36,7 +36,7 @@ export class BooksData {
             throw new Error(error.sqlMessage || error.message);
         }
 
-
     }
+    
     
 }

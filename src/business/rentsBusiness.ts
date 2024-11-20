@@ -62,4 +62,22 @@ export class RentsBusiness {
 
         }
     }
+
+    deletarEmprestimo = async(token: string) =>{
+        try {
+            if (!token) {
+                throw new Error("Token faltante");
+            }
+
+            const payload = verifyToken(token);
+            if (!payload) {
+                throw new Error("Token inválido ou expirado");
+            }
+            const result = await this.rentsData.deletarEmprestimo(payload.id)
+            return result; 
+        } catch (error: any) {
+            throw new Error(error.message || "Erro ao cancelar empréstimo");
+
+        }
+    }
 }

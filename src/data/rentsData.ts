@@ -17,8 +17,16 @@ export class RentsData {
             .join("Livro", "Emprestimo.livro_id", "=", "Livro.id")
             .where("Emprestimo.usuario_id", id)
             .select("Livro.id", "Livro.titulo", "Livro.genero", "Livro.autor", "Livro.sinopse", "Livro.data_publicacao");
-            
+
             return livros;
+        } catch (error: any) {
+            throw new Error(error.sqlMessage || error.message);
+        }
+    }
+
+    deletarEmprestimo = async (id: string) => {
+        try {
+            //
         } catch (error: any) {
             throw new Error(error.sqlMessage || error.message);
         }

@@ -30,4 +30,15 @@ export class RentsController {
             res.send(message);
         }
     }
+
+    deletarEmprestimo = async (req: Request, res: Response) => {
+        try {
+            const token = req.headers.authorization;
+            const result = await this.rentsBusiness.deletarEmprestimo(token as string);
+            res.send(result);
+        } catch (error: any) {
+            const message = error.message || "Não foi possível cancelar o emprestimo do livro";
+            res.send(message);
+        }
+    }
 }
