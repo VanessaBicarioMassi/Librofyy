@@ -10,13 +10,16 @@ export class BooksController {
     
     buscarLivros = async ( req: Request, res: Response) => {
         try {
-            const { titulo, autor, genero, dataPublicacao } = req.body;
+            const { titulo, autor, genero, dataPublicacao } = req.query;
+            const data = dataPublicacao ? new Date(dataPublicacao as string) : undefined;
+
             const result = await this.booksBusiness.buscarLivros(
-                titulo,
-                autor,
-                genero,
-                dataPublicacao,
+                titulo as string,
+                autor as string,
+                genero as string,
+                data,
             );
+            
             res.send(result);
         } catch (error: any) {
             const message = error.message || "Não foi possível realizar o cadastro";

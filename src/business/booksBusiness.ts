@@ -8,7 +8,7 @@ export class BooksBusiness {
         this.booksData = new BooksData();
     }
 
-    buscarLivros = async ( titulo: string, autor: string, genero: string, dataPublicacao: Date ) => {
+    buscarLivros = async ( titulo?: string, autor?: string, genero?: string, dataPublicacao?: Date ) => {
         try {
             let books;
             if (!titulo && !autor && !genero && !dataPublicacao ) {

@@ -7,5 +7,5 @@ app.post('/users', userRouter);
 
 app.get('/books', booksRouter);
 
-app.post('/rent', rentsRouter);
+app.use('/rents', rentsRouter);
 

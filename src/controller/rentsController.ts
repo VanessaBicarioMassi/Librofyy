@@ -8,11 +8,13 @@ export class RentsController {
         this.rentsBusiness = new RentsBusiness();
     }
 
-    alugarLivros = async (req: Request, res: Response) => {
+    realizarEmprestimo = async (req: Request, res: Response) => {
         try {
-            const { idLivro } = req.params;
+            const  idLivro  = req.params.id;
             const token = req.headers.authorization;
-            const result = await this.rentsBusiness.alugarLivros(token as string, idLivro);
+            console.log(token, idLivro)
+
+            const result = await this.rentsBusiness.realizarEmprestimo(token as string, idLivro as string);
             res.send(result);
         } catch (error: any) {
             const message = error.message || "Não foi possível alugar o livro desejado"

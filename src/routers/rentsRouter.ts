@@ -5,6 +5,6 @@ export const rentsRouter = express.Router();
 
 const rentsController = new RentsController();
 
-rentsRouter.post("/alugarLivros", rentsController.alugarLivros);
+rentsRouter.post("/realizarEmprestimo/:id", rentsController.realizarEmprestimo);
 rentsRouter.get("/buscarLivrosDoUsuario", rentsController.buscarLivrosDoUsuario);
 rentsRouter.delete("/deletarEmprestimo", rentsController.cancelarEmprestimo);

@@ -15,8 +15,9 @@ export class RentsBusiness {
         this.booksData = new BooksData();
     }
 
-    alugarLivros = async (token: string, idLivro: string) => {
+    realizarEmprestimo = async (token: string, idLivro: string) => {
         try {
+            console.log(token, idLivro)
             if (!token || !idLivro) {
                 throw new Error("Token ou id do livro faltantes");
             }
@@ -37,7 +38,7 @@ export class RentsBusiness {
             }
 
             const idRent = generateId();
-            const result = await this.rentsData.alugarLivros(idRent as string, payload.id, livro.id,);
+            const result = await this.rentsData.realizarEmprestimo(idRent as string, payload.id, livro.id,);
             return result;
         } catch (error: any) {
             throw new Error(error.message || "Erro ao realizar empréstimo");

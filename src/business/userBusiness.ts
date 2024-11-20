@@ -34,8 +34,6 @@ export class UserBusiness {
             const cargo = "USER"
             const result = await this.userData.cadastroUsuario(id as string, username, email, senha, telefone, cpf, cargo);
 
-            
-
             const payload: payload = {
                 id: id,
                 role: cargo as userRole
@@ -50,6 +48,7 @@ export class UserBusiness {
             throw new Error(error.message);
         }
     };
+    
     login = async (email: string, password: string) => {
         try {
 
@@ -106,8 +105,6 @@ export class UserBusiness {
             if (!token || !newUsername || !newEmail || !newTelefone ) {
                 throw new Error("Token ou campos faltantes");
             }
-
-            //console.log("Token recebido:", token);
 
             const payload = verifyToken(token); 
             if (!payload) {
