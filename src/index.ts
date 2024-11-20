@@ -17,7 +17,7 @@ app.get('/books/buscarLivros', booksRouter);
 
 app.post('/rent/alugarLivros', rentsRouter);
 
-app.get('/rent/buscarLivros', rentsRouter)
+app.get('/rent/buscarLivrosDoUsuario', rentsRouter)
 
 //app.delete('/rent/deletarEmprestimo', rentsRouter)
 
