@@ -39,6 +39,15 @@ export class UserData {
         }
     }
 
+    verificarCPF = async (cpf: string) => {
+        try {
+            const [user] = await db('usuarios').where({ cpf });
+            return user;
+        } catch (error: any) {
+            throw new Error(error.sqlMessage || error.message);
+        }
+    }
+
     alterarSenha = async (id: string, newPassword: string) => {
         try {
             await db('usuarios').where({id}).update({senha: newPassword})

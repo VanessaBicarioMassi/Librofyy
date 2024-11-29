@@ -24,6 +24,7 @@ export class RentsController {
     buscarLivrosDoUsuario = async (req: Request, res: Response) => {
         try {
             const token = req.headers.authorization;
+            console.log("Token recebido:", token);
 
             const result = await this.rentsBusiness.buscarLivrosDoUsuario(token as string);
             res.send(result);

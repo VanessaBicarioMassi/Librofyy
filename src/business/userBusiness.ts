@@ -2,6 +2,8 @@ import { generateId } from "../services/idGenerator";
 import { UserData } from "../data/userData";
 import { generateToken, payload, verifyToken } from "../services/token";
 import { userRole } from "../types/user";
+import { isCpfValid } from "../services/validateCPF";
+import { isPhoneValid } from "../services/validatePhone";
 
 
 export class UserBusiness {
@@ -21,18 +23,31 @@ export class UserBusiness {
                 throw new Error("Email inválido");
             }
 
-            if (senha.length < 6) {
+            if (senha.length < 8) {
                 throw new Error("Senha inválida");
             }
+
+            if (!isCpfValid(cpf)) {
+                throw new Error("CPF inválido");
+            }
+
+            if (!isPhoneValid(telefone)) {
+                throw new Error("Número de telefone inválido");
+            }
             
-            const existingUser = await this.userData.buscarUsuarioPorEmail(email);
-            if (existingUser) {
+            const verificarEmail = await this.userData.buscarUsuarioPorEmail(email);
+            if (verificarEmail) {
+                throw new Error("Email já está em uso.");
+            }
+
+            const verificarCPF = await this.userData.verificarCPF(cpf);
+            if (verificarCPF) {
                 throw new Error("Email já está em uso.");
             }
 
             const id = generateId();
             const cargo = "USER"
-            const result = await this.userData.cadastroUsuario(id as string, username, email, senha, telefone, cpf, cargo);
+            await this.userData.cadastroUsuario(id as string, username, email, senha, telefone, cpf, cargo);
 
             const payload: payload = {
                 id: id,
@@ -59,6 +74,10 @@ export class UserBusiness {
             const user = await this.userData.buscarUsuarioPorEmail(email) as any;
             if (!user) {
                 throw new Error("Usuario inexistente");
+            }
+
+            if (password != user.password) {
+                throw new Error("Senha incorreta");
             }
 
             const payload: payload = {
