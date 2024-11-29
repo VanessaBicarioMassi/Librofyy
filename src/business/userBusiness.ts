@@ -2,8 +2,9 @@ import { generateId } from "../services/idGenerator";
 import { UserData } from "../data/userData";
 import { generateToken, payload, verifyToken } from "../services/token";
 import { userRole } from "../types/user";
-import { isCpfValid } from "../services/validateCPF";
+import { isCpfValid } from "../services/validateCpf";
 import { isPhoneValid } from "../services/validatePhone";
+import { hash, compare } from "../services/hashManager"
 
 
 export class UserBusiness {
@@ -45,9 +46,11 @@ export class UserBusiness {
                 throw new Error("Email já está em uso.");
             }
 
-            const id = generateId();
+            const senhaCriptografada = await hash(senha)
+            const id = await generateId();
             const cargo = "USER"
-            await this.userData.cadastroUsuario(id as string, username, email, senha, telefone, cpf, cargo);
+            
+            await this.userData.cadastroUsuario(id as string, username, email, senhaCriptografada, telefone, cpf, cargo);
 
             const payload: payload = {
                 id: id,
@@ -72,14 +75,13 @@ export class UserBusiness {
             }
 
             const user = await this.userData.buscarUsuarioPorEmail(email) as any;
-            if (!user) {
-                throw new Error("Usuario inexistente");
-            }
 
-            if (password != user.password) {
-                throw new Error("Senha incorreta");
-            }
+            const verificarSenha = await compare(password, user.password);
 
+            if (!user || !verificarSenha) {
+                throw new Error("Credenciais inválidas");
+            }
+            
             const payload: payload = {
                 id: user.id,
                 role: user.cargo
