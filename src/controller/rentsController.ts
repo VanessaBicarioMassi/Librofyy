@@ -12,7 +12,6 @@ export class RentsController {
         try {
             const  idLivro  = req.params.id;
             const token = req.headers.authorization;
-            console.log(token, idLivro)
 
             const result = await this.rentsBusiness.realizarEmprestimo(token as string, idLivro as string);
             res.send(result);
@@ -25,6 +24,7 @@ export class RentsController {
     buscarLivrosDoUsuario = async (req: Request, res: Response) => {
         try {
             const token = req.headers.authorization;
+
             const result = await this.rentsBusiness.buscarLivrosDoUsuario(token as string);
             res.send(result);
         } catch (error:any) {
@@ -33,10 +33,22 @@ export class RentsController {
         }
     }
 
+    buscarEmprestimos = async (req: Request, res: Response) => {
+        try {
+            const token = req.headers.authorization;
+            const result = await this.rentsBusiness.buscarEmprestimos(token as string);
+            res.send(result);
+        } catch (error:any) {
+            const message = error.message || "Não foi possível buscar os livros";
+            res.send(message);
+        }
+    }
+    
+
     cancelarEmprestimo = async (req: Request, res: Response) => {
         try {
             const token = req.headers.authorization;
-            const idRent = req.body;
+            const idRent = req.params.id;
             const result = await this.rentsBusiness.cancelarEmprestimo(token as string, idRent );
             res.send(result);
         } catch (error: any) {

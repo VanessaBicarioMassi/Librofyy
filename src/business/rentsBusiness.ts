@@ -17,7 +17,6 @@ export class RentsBusiness {
 
     realizarEmprestimo = async (token: string, idLivro: string) => {
         try {
-            console.log(token, idLivro)
             if (!token || !idLivro) {
                 throw new Error("Token ou id do livro faltantes");
             }
@@ -64,6 +63,25 @@ export class RentsBusiness {
         }
     }
 
+    buscarEmprestimos = async (token: string) => {
+        try {
+            if (!token) {
+                throw new Error("Token faltante");
+            }
+
+            const payload = verifyToken(token);
+            if (!payload) {
+                throw new Error("Token inválido ou expirado");
+            }
+
+            const result = await this.rentsData.buscarEmprestimos(payload.id)
+            return result;
+        } catch (error: any) {
+            throw new Error(error.message || "Erro ao realizar busca");
+
+        }
+    }
+
     cancelarEmprestimo = async(token: string, idRent: string) =>{
         try {
             if ( !token || !idRent ) {
@@ -75,7 +93,7 @@ export class RentsBusiness {
                 throw new Error("Token inválido ou expirado");
             }
 
-            const emprestimo = await this.rentsData.buscarEmprestimo(payload.id, idRent)
+            const emprestimo = await this.rentsData.buscarEmprestimoPorID(payload.id, idRent)
             if (!emprestimo) {
                 throw new Error("Empréstimo não encontrado.");
             }
@@ -83,7 +101,6 @@ export class RentsBusiness {
             const result = await this.rentsData.cancelarEmprestimo(payload.id, idRent);
             return result;
 
-            return result; 
         } catch (error: any) {
             throw new Error(error.message || "Erro ao cancelar empréstimo");
 

@@ -14,20 +14,39 @@ export class RentsData {
 
     buscarLivrosDoUsuario = async (id: string) => {
         try {
-            const livros = await db("Emprestimo")
-                .join("Livro", "Emprestimo.livro_id", "=", "Livro.id")
-                .where("Emprestimo.usuario_id", id)
-                .select("Livro.id", "Livro.titulo", "Livro.genero", "Livro.autor", "Livro.sinopse", "Livro.data_publicacao");
+            const livros = await db("emprestimo")
+                .join("livros", "emprestimo.livro_id", "=", "livros.id") // Alterado para "livros"
+                .where("emprestimo.usuario_id", id) // Utiliza "usuario_id" correto
+                .select(
+                    "livros.id", 
+                    "livros.titulo", 
+                    "livros.genero", 
+                    "livros.autor", 
+                    "livros.sinopse", 
+                    "livros.data_publicacao"
+                );
 
             return livros;
         } catch (error: any) {
             throw new Error(error.sqlMessage || error.message);
         }
+        
     }
 
-    buscarEmprestimo = async (idUser: string, idRent: string) => {
+    buscarEmprestimos = async (idUser: string) => {
         try {
-            const emprestimo = await db("Emprestimo").where({ id: idRent, usuario_id: idUser }).first();
+            const emprestimo = await db("emprestimo").where({ usuario_id: idUser }).first();
+            return emprestimo;
+
+        } catch (error: any) {
+            throw new Error(error.sqlMessage || error.message);
+        }
+    }
+
+
+    buscarEmprestimoPorID = async (idUser: string, idRent: string) => {
+        try {
+            const emprestimo = await db("emprestimo").where({ id: idRent, usuario_id: idUser }).first();
             return emprestimo;
 
         } catch (error: any) {
@@ -37,7 +56,7 @@ export class RentsData {
 
     cancelarEmprestimo = async (idUser: string, idRent: string) => {
         try {
-            await db("Emprestimo").where({ id: idRent, usuario_id: idUser }).delete();
+            await db("emprestimo").where({ id: idRent, usuario_id: idUser }).delete();
 
             return { message: "Empréstimo deletado com sucesso!" };
         } catch (error: any) {
