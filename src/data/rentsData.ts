@@ -1,22 +1,22 @@
 import db from "../services/db";
-import { InternalServerErrorException } from "../services/exeception";
+import { HttpException} from "../services/exeception";
 import { Response } from "express";
 
 export class RentsData {
 
-    realizarEmprestimo = async (res: Response, idRent: string, idUser: string, idLivro: string) => {
+    realizarEmprestimo = async (res: Response, idEmprestimo: string, idUsuario: string, idLivro: string) => {
         try {
-            await db("emprestimo").insert({ id: idRent, usuario_id: idUser, livro_id: idLivro });
+            await db("emprestimo").insert({ id: idEmprestimo, usuario_id: idUsuario, livro_id: idLivro });
 
             return;
         } catch (error: any) {
-            InternalServerErrorException(res, error.sqlMessage);
+            HttpException(res, 500, error.sqlMessage);
         }
     }
 
     buscarLivrosDoUsuario = async (res: Response, id: string) => {
         try {
-            const books = await db("emprestimo")
+            const livros = await db("emprestimo")
                 .join("livros", "emprestimo.livro_id", "=", "livros.id")
                 .where("emprestimo.usuario_id", id)
                 .select(
@@ -28,41 +28,41 @@ export class RentsData {
                     "livros.data_publicacao"
                 );
 
-            return books;
+            return livros;
         } catch (error: any) {
-            InternalServerErrorException(res, error.sqlMessage);
+            HttpException(res, 500, error.sqlMessage);
         }
 
     }
 
-    buscarEmprestimos = async (res: Response, idUser: string) => {
+    buscarEmprestimos = async (res: Response, idUsuario: string) => {
         try {
-            const rents = await db("emprestimo").where({ usuario_id: idUser }).first();
+            const emprestimos = await db("emprestimo").where({ usuario_id: idUsuario }).first();
 
-            return rents;
+            return emprestimos;
         } catch (error: any) {
-            InternalServerErrorException(res, error.sqlMessage);
+            HttpException(res, 500, error.sqlMessage);
         }
     }
 
 
-    buscarEmprestimoPorID = async (res: Response, idUser: string, idRent: string) => {
+    buscarEmprestimoPorID = async (res: Response, idUsuario: string, idEmprestimo: string) => {
         try {
-            const emprestimo = await db("emprestimo").where({ id: idRent, usuario_id: idUser }).first();
+            const emprestimo = await db("emprestimo").where({ id: idEmprestimo, usuario_id: idUsuario }).first();
 
             return emprestimo;
         } catch (error: any) {
-            InternalServerErrorException(res, error.sqlMessage);
+            HttpException(res, 500, error.sqlMessage);
         }
     }
 
-    cancelarEmprestimo = async (res: Response, idUser: string, idRent: string) => {
+    cancelarEmprestimo = async (res: Response, idUsuario: string, idEmprestimo: string) => {
         try {
-            await db("emprestimo").where({ id: idRent, usuario_id: idUser }).delete();
+            await db("emprestimo").where({ id: idEmprestimo, usuario_id: idUsuario }).delete();
 
             return;
         } catch (error: any) {
-            InternalServerErrorException(res, error.sqlMessage);
+            HttpException(res, 500, error.sqlMessage);
         }
     }
 }

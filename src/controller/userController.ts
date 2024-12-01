@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { UserBusiness } from "../business/userBusiness";
-import { InternalServerErrorException } from "../services/exeception";
 
 export class UserController {
     private userBusiness: UserBusiness;
@@ -10,72 +9,71 @@ export class UserController {
     }
 
     cadastro = async (req: Request, res: Response) => {
-        try {
-            const { username, email, senha, telefone, cpf } = req.body;
+        const { username, email, senha, telefone, cpf } = req.body;
 
-            this.userBusiness.cadastro(
-                res,
-                username,
-                email,
-                senha,
-                telefone,
-                cpf
-            ).then((token) => res.status(201).json({ message: "Usuário criado com sucesso", token }));
+        // const token = await this.userBusiness.cadastro(
+        //     res,
+        //     username,
+        //     email,
+        //     senha,
+        //     telefone,
+        //     cpf
+        // )
 
-        } catch (error: any) {
-            InternalServerErrorException(res, "Não foi possível realizar o cadastro")
-        }
+        // if (token) {
+        //     res.status(201).send({message: "Email criado com sucesso", token })
+        // }
+
+        this.userBusiness.cadastro(
+            res,
+            username,
+            email,
+            senha,
+            telefone,
+            cpf
+        )
+            .then((token) => res.status(201).send({ message: "Cadastro realizado com sucesso", token }))
+            .catch((e) => console.log(`${new Date()} - ${e.message}`))
     };
 
     login = async (req: Request, res: Response) => {
-        try {
-            const { email, password } = req.body;
 
-            this.userBusiness.login(res, email, password)
-                .then((token) => res.status(200).json({ message: "Login feito com sucesso", token }));
+        const { email, senha } = req.body;
 
-        } catch (error: any) {
-            console.log(error)
-            InternalServerErrorException(res, "Não foi possível realizar login");
-        }
+        this.userBusiness.login(res, email, senha)
+
+            .then((token) => res.status(200).send({ message: "Login realizado com sucesso", token }))
+            .catch((e) => console.log(`${new Date()} - ${e.message}`))
     };
 
     atualizarSenha = async (req: Request, res: Response) => {
-        try {
-            const token = req.headers.authorization;
-            const { newPassword } = req.body;
 
-            this.userBusiness.atualizarSenha(res, token as string, newPassword)
-                .then(() => res.status(200).json({ message: "Senha atualizada com sucesso" }));
+        const token = req.headers.authorization;
+        const { novaSenha } = req.body;
 
-        } catch (error: any) {
-            InternalServerErrorException(res, "Não foi possível realizar a atualização de senha");
-        }
+        this.userBusiness.atualizarSenha(res, token as string, novaSenha)
+            .then(() => res.status(200).send({ message: "Senha atualizada com sucesso" }))
+            .catch((e) => console.log(`${new Date()} - ${e.message}`))
     };
 
     atualizarDados = async (req: Request, res: Response) => {
-        try {
-            const token = req.headers.authorization;
-            const { newUsername, newEmail, newTelefone } = req.body;
 
-            this.userBusiness.atualizarDados(res, token as string, newUsername, newEmail, newTelefone)
-                .then(() => res.status(200).json({ message: "Dados atualizados com sucesso" }));
+        const token = req.headers.authorization;
+        const { novoUsername, novoEmail, novoTelefone } = req.body;
+
+        this.userBusiness.atualizarDados(res, token as string, novoUsername, novoEmail, novoTelefone)
+            .then(() => res.status(200).send({ message: "Dados atualizados com sucesso" }))
+            .catch((e) => console.log(`${new Date()} - ${e.message}`))
 
 
-        } catch (error: any) {
-            InternalServerErrorException(res, "Não foi possível realizar a atualização de dados");
-        }
     }
 
     deletarUsuario = async (req: Request, res: Response) => {
-        try {
-            const token = req.headers.authorization;
 
-            this.userBusiness.deletarUsuario(res, token as string)
-                .then(() => res.status(204).send())
+        const token = req.headers.authorization;
 
-        } catch (error: any) {
-            InternalServerErrorException(res, "Não foi possível realizar a exclusão do usuário");
-        }
+        this.userBusiness.deletarUsuario(res, token as string)
+            .then(() => res.status(204).send())
+            .catch((e) => console.log(`${new Date()} - ${e.message}`))
     }
 }

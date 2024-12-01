@@ -1,5 +1,5 @@
 import db from "../services/db";
-import { InternalServerErrorException } from "../services/exeception";
+import { HttpException } from "../services/exeception";
 import { Response } from "express";
 
 export class BooksData {
@@ -8,11 +8,11 @@ export class BooksData {
         try {
             const offset = (page - 1) * limit;
 
-            const books = await db("livros").select("*").limit(limit).offset(offset);
+            const livros = await db("livros").select("*").limit(limit).offset(offset);
 
-            return books;
+            return livros;
         } catch (error: any) {
-            InternalServerErrorException(res, error.sqlMessage);
+            HttpException(res, 500, error.sqlMessage);
         }
     };
 
@@ -27,11 +27,11 @@ export class BooksData {
             if (genero) query.where("genero", "like", `%${genero}%`);
             if (dataPublicacao) query.where("dataPublicacao", dataPublicacao);
 
-            const result = await query.limit(limit).offset(offset);
+            const livros = await query.limit(limit).offset(offset);
 
-            return result;
+            return livros;
         } catch (error: any) {
-            InternalServerErrorException(res, error.sqlMessage);
+            HttpException(res, 500, error.sqlMessage);
         }
     };
 
@@ -42,7 +42,7 @@ export class BooksData {
 
             return livro;
         } catch (error: any) {
-            InternalServerErrorException(res, error.sqlMessage);
+            HttpException(res, 500, error.sqlMessage);
         }
 
     }

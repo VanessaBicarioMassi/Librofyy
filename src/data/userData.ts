@@ -1,6 +1,6 @@
 import db from "../services/db";
-import { InternalServerErrorException } from "../services/exeception";
 import { Response } from "express";
+import { HttpException } from "../services/exeception";
 
 export class UserData {
 
@@ -16,59 +16,59 @@ export class UserData {
                 cargo
             });
 
-            return { message: "Usuário cadastrado com sucesso" };
+            return;
         } catch (error: any) {
-            InternalServerErrorException(res, error.sqlMessage)
+            HttpException(res, 500, error.sqlMessage);
         }
     }
 
     buscarUsuarioPorEmail = async (res: Response, email: string) => {
         try {
-            const [user] = await db('usuarios').where({ email });
+            const [usuario] = await db('usuarios').where({ email });
 
-            return user;
+            return usuario;
         } catch (error: any) {
-            InternalServerErrorException(res, error.sqlMessage);
+            HttpException(res, 500, error.sqlMessage);
         }
     }
 
     buscarUsuarioPorId = async (res: Response, id: string) => {
         try {
-            const [user] = await db('usuarios').where({ id });
+            const [usuario] = await db('usuarios').where({ id });
 
-            return user;
+            return usuario;
         } catch (error: any) {
-            InternalServerErrorException(res, error.sqlMessage);
+            HttpException(res, 500, error.sqlMessage);
         }
     }
 
     verificarCPF = async (res: Response, cpf: string) => {
         try {
-            const [user] = await db('usuarios').where({ cpf });
+            const [usuario] = await db('usuarios').where({ cpf });
 
-            return user;
+            return usuario;
         } catch (error: any) {
-            InternalServerErrorException(res, error.sqlMessage);
+            HttpException(res, 500, error.sqlMessage);
         }
     }
 
-    alterarSenha = async (res: Response, id: string, newPassword: string) => {
+    alterarSenha = async (res: Response, id: string, novaSenha: string) => {
         try {
-            await db('usuarios').where({ id }).update({ senha: newPassword });
+            await db('usuarios').where({ id }).update({ senha: novaSenha });
 
             return;
         } catch (error: any) {
-            InternalServerErrorException(res, error.sqlMessage);
+            HttpException(res, 500, error.sqlMessage);
         }
     }
 
-    alterarDados = async (res: Response, id: string, newUsername: string, newEmail: string, newTelefone: string) => {
+    alterarDados = async (res: Response, id: string, novoUsername: string, novoEmail: string, novoTelefone: string) => {
         try {
-            await db('usuarios').where({ id }).update({ username: newUsername, email: newEmail, telefone: newTelefone })
+            await db('usuarios').where({ id }).update({ username: novoUsername, email: novoEmail, telefone: novoTelefone })
 
             return;
         } catch (error: any) {
-            InternalServerErrorException(res, error.sqlMessage);
+            HttpException(res, 500, error.sqlMessage);
         }
     }
 
@@ -78,7 +78,7 @@ export class UserData {
 
             return;
         } catch (error: any) {
-            InternalServerErrorException(res, error.sqlMessage);
+            HttpException(res, 500, error.sqlMessage);
         }
     }
 }

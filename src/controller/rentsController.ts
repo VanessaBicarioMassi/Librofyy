@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { RentsBusiness } from "../business/rentsBusiness";
-import { InternalServerErrorException } from "../services/exeception";
 
 export class RentsController {
     private rentsBusiness: RentsBusiness;
@@ -10,52 +9,40 @@ export class RentsController {
     }
 
     realizarEmprestimo = async (req: Request, res: Response) => {
-        try {
-            const idLivro = req.params.id;
-            const token = req.headers.authorization;
 
-            this.rentsBusiness.realizarEmprestimo(res, token as string, idLivro as string)
-                .then(() => res.status(201).json({ message: "Empréstimo realizado com sucesso" }));
+        const idLivro = req.params.id;
+        const token = req.headers.authorization;
 
-        } catch (error: any) {
-            InternalServerErrorException(res, "Não foi possível realizar o empréstimo");
-        }
+        this.rentsBusiness.realizarEmprestimo(res, token as string, idLivro as string)
+            .then(() => res.status(200).send({ message: "Emprestimo realizado com sucesso" }))
+            .catch((e) => console.log(`${new Date()} - ${e.message}`))
     }
 
     buscarLivrosDoUsuario = async (req: Request, res: Response) => {
-        try {
-            const token = req.headers.authorization;
 
-            this.rentsBusiness.buscarLivrosDoUsuario(res, token as string)
-                .then((books) => res.status(200).json({ books }));
+        const token = req.headers.authorization;
 
-        } catch (error: any) {
-            InternalServerErrorException(res, "Não foi possível realizar a busca dos livros");
-        }
+        this.rentsBusiness.buscarLivrosDoUsuario(res, token as string)
+            .then((books) => res.status(200).send({ message: "Busca realizada com sucesso", books }))
+            .catch((e) => console.log(`${new Date()} - ${e.message}`))
     }
 
     buscarEmprestimos = async (req: Request, res: Response) => {
-        try {
-            const token = req.headers.authorization;
 
-            this.rentsBusiness.buscarEmprestimos(res, token as string)
-                .then((rents) => res.status(200).json({ rents }));
+        const token = req.headers.authorization;
 
-        } catch (error: any) {
-            InternalServerErrorException(res, "Não foi possível realizar a busca do empréstimo");
-        }
+        this.rentsBusiness.buscarEmprestimos(res, token as string)
+            .then((rents) => res.status(200).send({ message: "Busca realizada com sucesso", rents }))
+            .catch((e) => console.log(`${new Date()} - ${e.message}`))
     }
 
     cancelarEmprestimo = async (req: Request, res: Response) => {
-        try {
-            const token = req.headers.authorization;
-            const idRent = req.params.id;
 
-            await this.rentsBusiness.cancelarEmprestimo(res, token as string, idRent)
-                .then(() => res.status(204).send());
+        const token = req.headers.authorization;
+        const idRent = req.params.id;
 
-        } catch (error: any) {
-            InternalServerErrorException(res, "Não foi possível realizar o cancelamento do empréstimo");
-        }
+        await this.rentsBusiness.cancelarEmprestimo(res, token as string, idRent)
+            .then(() => res.status(204).send())
+            .catch((e) => console.log(`${new Date()} - ${e.message}`))
     }
 }
