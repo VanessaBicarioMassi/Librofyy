@@ -15,7 +15,7 @@ export async function generateToken(payload: payload) {
 export function verifyToken(token: string): payload {
     const tokenData: payload = jwt.verify(
         token,
-        process.env.JWT_SECRET as string 
+        process.env.JWT_SECRET as string
     ) as payload;
     return tokenData;
 }

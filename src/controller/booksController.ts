@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { BooksBusiness } from "../business/booksBusiness";
+import { InternalServerErrorException } from "../services/exeception";
 
 export class BooksController {
     private booksBusiness: BooksBusiness;
@@ -7,24 +8,22 @@ export class BooksController {
     constructor() {
         this.booksBusiness = new BooksBusiness();
     }
-    
-    buscarLivros = async ( req: Request, res: Response) => {
+
+    buscarLivros = async (req: Request, res: Response) => {
         try {
             const { titulo, autor, genero, dataPublicacao } = req.query;
             const data = dataPublicacao ? new Date(dataPublicacao as string) : undefined;
 
-            const result = await this.booksBusiness.buscarLivros(
+            this.booksBusiness.buscarLivros(
+                res,
                 titulo as string,
                 autor as string,
                 genero as string,
                 data,
-            );
-            
-            res.send(result);
+            ).then((books)=> res.status(200).json({books}));
+
         } catch (error: any) {
-            const message = error.message || "Não foi possível realizar o cadastro";
-            res.send(message);
-            
+            InternalServerErrorException(res, "Não foi possível realizar a busca dos livvros");
         }
 
     }

@@ -1,7 +1,7 @@
 import type { Knex } from "knex";
 import dotenv from "dotenv";
 
-dotenv.config(); 
+dotenv.config();
 
 const config: Knex.Config = {
   client: "pg",
@@ -12,9 +12,9 @@ const config: Knex.Config = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
   },
-  pool: { min: 2, max: 10 }, 
+  pool: { min: 2, max: 10 },
   migrations: {
-    directory: "./migrations", 
+    directory: "./migrations",
     tableName: "knex_migrations",
   },
 };

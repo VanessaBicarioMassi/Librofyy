@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { UserBusiness } from "../business/userBusiness";
+import { InternalServerErrorException } from "../services/exeception";
 
 export class UserController {
     private userBusiness: UserBusiness;
@@ -11,28 +12,30 @@ export class UserController {
     cadastro = async (req: Request, res: Response) => {
         try {
             const { username, email, senha, telefone, cpf } = req.body;
-            const result = await this.userBusiness.cadastro(
+
+            this.userBusiness.cadastro(
+                res,
                 username,
                 email,
                 senha,
                 telefone,
                 cpf
-            );
-            res.send(result);
+            ).then((token) => res.status(201).json({ message: "Usuário criado com sucesso", token }));
+
         } catch (error: any) {
-            const message = error.message || "Não foi possível realizar o cadastro" 
-            res.send(message);
+            InternalServerErrorException(res, "Não foi possível realizar o cadastro")
         }
     };
 
     login = async (req: Request, res: Response) => {
         try {
             const { email, password } = req.body;
-            const result = await this.userBusiness.login(email, password);
-            res.send(result);
+            this.userBusiness.login(res, email, password)
+                .then((token) => res.status(200).json({ message: "Login feito com sucesso", token }));
+
         } catch (error: any) {
-            const message = error.message || "Não foi possível realizar o login"
-            res.send(message);
+            console.log(error)
+            InternalServerErrorException(res, "Não foi possível realizar login");
         }
     };
 
@@ -40,11 +43,10 @@ export class UserController {
         try {
             const token = req.headers.authorization;
             const { newPassword } = req.body;
-            const result = await this.userBusiness.atualizarSenha(token as string, newPassword);
-            res.send(result);
+            this.userBusiness.atualizarSenha(res, token as string, newPassword)
+                .then( ()=> res.status(200).json({message: "Senha atualizada com sucesso"}));
         } catch (error: any) {
-            const message = error.message || "Não foi possível alterar a senha" 
-            res.send(message);
+            InternalServerErrorException(res, "Não foi possível realizar a atualização de senha");
         }
     };
 
@@ -52,24 +54,21 @@ export class UserController {
         try {
             const token = req.headers.authorization;
             const { newUsername, newEmail, newTelefone } = req.body;
-            const result = await this.userBusiness.atualizarDados(token as string, newUsername, newEmail, newTelefone);
-            res.send(result);
+            this.userBusiness.atualizarDados(res, token as string, newUsername, newEmail, newTelefone)
+            .then( ()=> res.status(200).json({message: "Dados atualizados com sucesso"}));
 
-        }catch (error: any) {
-            const message = error.message || "Não foi possível alterar os dados" 
-            res.send(message);
+
+        } catch (error: any) {
+            InternalServerErrorException(res, "Não foi possível realizar a atualização de dados");
         }
     }
 
     deletarUsuario = async (req: Request, res: Response) => {
         try {
             const token = req.headers.authorization;
-            const result = await this.userBusiness.deletarUsuario(token as string);
-            res.send(result);
-
+            this.userBusiness.deletarUsuario(res, token as string).then(()=> res.status(204).send())
         } catch (error: any) {
-            const message = error.message || "Não foi possível deletar o usuário" 
-            res.send(message);
+            InternalServerErrorException(res, "Não foi possível realizar a exclusão do usuário");
         }
     }
 }

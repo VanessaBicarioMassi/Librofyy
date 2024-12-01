@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { RentsBusiness } from "../business/rentsBusiness";
+import { InternalServerErrorException } from "../services/exeception";
 
 export class RentsController {
     private rentsBusiness: RentsBusiness;
@@ -10,56 +11,47 @@ export class RentsController {
 
     realizarEmprestimo = async (req: Request, res: Response) => {
         try {
-            const  idLivro  = req.params.id;
+            const idLivro = req.params.id;
             const token = req.headers.authorization;
 
-            const result = await this.rentsBusiness.realizarEmprestimo(token as string, idLivro as string);
-            res.send(result);
+            this.rentsBusiness.realizarEmprestimo(res, token as string, idLivro as string)
+            .then(() => res.status(201).json({message:"Empréstimo realizado com sucesso"}));
+
         } catch (error: any) {
-            const message = error.message || "Não foi possível alugar o livro desejado"
-            res.send(message);
+            InternalServerErrorException(res, "Não foi possível realizar o empréstimo");
         }
     }
 
     buscarLivrosDoUsuario = async (req: Request, res: Response) => {
         try {
             const token = req.headers.authorization;
-            console.log("Token recebido:", token);
 
-            const result = await this.rentsBusiness.buscarLivrosDoUsuario(token as string);
-            res.send(result);
-        } catch (error:any) {
-            const message = error.message || "Não foi possível buscar os livros";
-            res.send(message);
+            this.rentsBusiness.buscarLivrosDoUsuario(res, token as string)
+            .then((books)=> res.status(200).json({books}));
+        } catch (error: any) {
+            InternalServerErrorException(res, "Não foi possível realizar a busca dos livros");
         }
     }
 
     buscarEmprestimos = async (req: Request, res: Response) => {
         try {
             const token = req.headers.authorization;
-            const result = await this.rentsBusiness.buscarEmprestimos(token as string);
-            res.send(result);
-        } catch (error:any) {
-            const message = error.message || "Não foi possível buscar os livros";
-            res.send(message);
+            this.rentsBusiness.buscarEmprestimos(res, token as string)
+            .then((rents)=> res.status(200).json({rents}));
+
+        } catch (error: any) {
+            InternalServerErrorException(res, "Não foi possível realizar a busca do empréstimo");
         }
     }
-    
 
     cancelarEmprestimo = async (req: Request, res: Response) => {
         try {
             const token = req.headers.authorization;
             const idRent = req.params.id;
-            const result = await this.rentsBusiness.cancelarEmprestimo(token as string, idRent );
-            res.send(result);
+            const result = await this.rentsBusiness.cancelarEmprestimo(res, token as string, idRent)
+            .then(()=> res.status(204).send());
         } catch (error: any) {
-            const message = error.message || "Não foi possível cancelar o emprestimo do livro";
-            //if()
-                // fazer verificacao de qual status com if else
-            // trocar o nome de deletar pra cancelar
-            // retirar os consoles
-            // no index escrever igual o github do Flavio back1 2024-2 arq1
-            res.send(message);
+            InternalServerErrorException(res, "Não foi possível realizar o cancelamento do empréstimo");
         }
     }
 }

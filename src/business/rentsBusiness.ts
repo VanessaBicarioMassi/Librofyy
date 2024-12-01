@@ -3,6 +3,8 @@ import { verifyToken } from "../services/token";
 import { UserData } from "../data/userData";
 import { BooksData } from "../data/booksData";
 import { generateId } from "../services/idGenerator";
+import { BadRequestException, UnprocessableEntityException } from "../services/exeception";
+import { Response } from "express";
 
 export class RentsBusiness {
     private rentsData: RentsData;
@@ -15,95 +17,80 @@ export class RentsBusiness {
         this.booksData = new BooksData();
     }
 
-    realizarEmprestimo = async (token: string, idLivro: string) => {
-        try {
+    realizarEmprestimo = async (res: Response, token: string, idLivro: string) => {
             if (!token || !idLivro) {
-                throw new Error("Token ou id do livro faltantes");
+                BadRequestException(res, "Token ou id do livro faltantes");
             }
 
             const payload = verifyToken(token);
             if (!payload) {
-                throw new Error("Token inválido ou expirado");
+                 BadRequestException(res, "Token inválido ou expirado");
             }
 
-            const user = await this.userData.buscarUsuarioPorId(payload.id);
+            const user = await this.userData.buscarUsuarioPorId(res, payload.id);
             if (!user) {
-                throw new Error("Usuário inexistente");
+                UnprocessableEntityException(res, "Usuário inexistente");
             }
 
-            const livro = await this.booksData.buscarLivroPorId(idLivro);
+            const livro = await this.booksData.buscarLivroPorId(res, idLivro);
             if (!livro) {
-                throw new Error("Livro inexistente");
+                UnprocessableEntityException(res, "Livro inexistente");
             }
 
             const idRent = generateId();
-            const result = await this.rentsData.realizarEmprestimo(idRent as string, payload.id, livro.id,);
-            return result;
-        } catch (error: any) {
-            throw new Error(error.message || "Erro ao realizar empréstimo");
-        }
+            await this.rentsData.realizarEmprestimo(res, idRent as string, payload.id, livro.id,);
+            return;
     }
 
-    buscarLivrosDoUsuario = async (token: string) => {
-        try {
+    buscarLivrosDoUsuario = async (res: Response, token: string) => {
             if (!token) {
-                throw new Error("Token faltante");
+                BadRequestException(res, "Token faltante");
             }
 
             const payload = verifyToken(token);
             if (!payload) {
-                throw new Error("Token inválido ou expirado");
+                BadRequestException(res, "Token inválido ou expirado");
             }
 
-            const result = await this.rentsData.buscarLivrosDoUsuario(payload.id)
-            return result;
-        } catch (error: any) {
-            throw new Error(error.message || "Erro ao realizar busca");
+            const books = await this.rentsData.buscarLivrosDoUsuario(res, payload.id)
+            return books;
 
-        }
     }
 
-    buscarEmprestimos = async (token: string) => {
-        try {
+    buscarEmprestimos = async (res: Response, token: string) => {
+
             if (!token) {
-                throw new Error("Token faltante");
+                BadRequestException(res, "Token faltante");
             }
 
             const payload = verifyToken(token);
             if (!payload) {
-                throw new Error("Token inválido ou expirado");
+                BadRequestException(res, "Token inválido ou expirado");
             }
 
-            const result = await this.rentsData.buscarEmprestimos(payload.id)
-            return result;
-        } catch (error: any) {
-            throw new Error(error.message || "Erro ao realizar busca");
-
-        }
+            const rents = await this.rentsData.buscarEmprestimos(res, payload.id)
+            return rents;
+        
     }
 
-    cancelarEmprestimo = async(token: string, idRent: string) =>{
-        try {
-            if ( !token || !idRent ) {
-                throw new Error("Campos faltantes");
+    cancelarEmprestimo = async (res: Response, token: string, idRent: string) => {
+
+            if (!token || !idRent) {
+                BadRequestException(res, "Campos faltantes");
             }
 
             const payload = verifyToken(token);
             if (!payload) {
-                throw new Error("Token inválido ou expirado");
+                BadRequestException(res, "Token inválido ou expirado");
             }
 
-            const emprestimo = await this.rentsData.buscarEmprestimoPorID(payload.id, idRent)
+            const emprestimo = await this.rentsData.buscarEmprestimoPorID(res, payload.id, idRent)
             if (!emprestimo) {
-                throw new Error("Empréstimo não encontrado.");
+                UnprocessableEntityException(res, "Empréstimo não encontrado.");
             }
 
-            const result = await this.rentsData.cancelarEmprestimo(payload.id, idRent);
-            return result;
+            await this.rentsData.cancelarEmprestimo(res, payload.id, idRent);
+            return;
 
-        } catch (error: any) {
-            throw new Error(error.message || "Erro ao cancelar empréstimo");
-
-        }
     }
 }

@@ -1,4 +1,4 @@
-import {app} from "./App";
+import { app } from "./App";
 import { userRouter } from "./routers/userRouter";
 import { booksRouter } from "./routers/booksRouter";
 import { rentsRouter } from "./routers/rentsRouter";

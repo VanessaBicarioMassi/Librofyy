@@ -5,6 +5,8 @@ import { userRole } from "../types/user";
 import { isCpfValid } from "../services/validateCpf";
 import { isPhoneValid } from "../services/validatePhone";
 import { hash, compare } from "../services/hashManager"
+import { BadRequestException, UnprocessableEntityException, ConflictException } from "../services/exeception";
+import { Response } from "express";
 
 
 export class UserBusiness {
@@ -13,163 +15,141 @@ export class UserBusiness {
     constructor() {
         this.userData = new UserData();
     }
+
+    cadastro = async (res: Response, username: string, email: string, senha: string, telefone: string, cpf: string) => {
     
-    cadastro = async (username: string, email: string, senha: string, telefone: string, cpf: string) => {
-        try {
-            if (!username || !email || !senha || !telefone || !cpf ) {
-                throw new Error("Campos vazios");
+            if (!username || !email || !senha || !telefone || !cpf) {
+                return BadRequestException(res, "Campos faltantes");
             }
-
+    
             if (email.indexOf("@") === -1 || email.indexOf("@") === 0) {
-                throw new Error("Email inválido");
+                return BadRequestException(res, "Email inválido");
             }
-
+    
             if (senha.length < 8) {
-                throw new Error("Senha inválida");
+                return BadRequestException(res, "Senha inválida");
             }
-
+    
             if (!isCpfValid(cpf)) {
-                throw new Error("CPF inválido");
+                return BadRequestException(res, "CPF inválido");
             }
-
+    
             if (!isPhoneValid(telefone)) {
-                throw new Error("Número de telefone inválido");
+                return BadRequestException(res, "Número de telefone inválido");
             }
-            
-            const verificarEmail = await this.userData.buscarUsuarioPorEmail(email);
+    
+            const verificarEmail = await this.userData.buscarUsuarioPorEmail(res, email);
             if (verificarEmail) {
-                throw new Error("Email já está em uso.");
+                return ConflictException(res, "Email já está em uso.");
             }
-
-            const verificarCPF = await this.userData.verificarCPF(cpf);
+    
+            const verificarCPF = await this.userData.verificarCPF(res, cpf);
             if (verificarCPF) {
-                throw new Error("Email já está em uso.");
+                return ConflictException(res, "CPF já está em uso.");
             }
-
-            const senhaCriptografada = await hash(senha)
-            const id = await generateId();
-            const cargo = "USER"
-            
-            await this.userData.cadastroUsuario(id as string, username, email, senhaCriptografada, telefone, cpf, cargo);
-
+    
+            const senhaCriptografada = await hash(senha);
+            const id = generateId();
+            const cargo = "USER";
+            await this.userData.cadastroUsuario(res, id as string, username, email, senhaCriptografada, telefone, cpf, cargo);
+    
             const payload: payload = {
                 id: id,
                 role: cargo as userRole
-            }
-
-            const token = await generateToken(payload)
-
+            };
+    
+            const token = await generateToken(payload);
+    
             return token
-
-        } catch (error: any) {
-            console.error("Erro no cadastro do usuário:", error.message);
-            throw new Error(error.message);
-        }
     };
     
-    login = async (email: string, password: string) => {
-        try {
 
+    login = async (res: Response, email: string, password: string) => {
+        
             if (!email || !password) {
-                throw new Error("Campos faltantes")
+                BadRequestException(res, "Campos faltantes");
             }
 
-            const user = await this.userData.buscarUsuarioPorEmail(email) as any;
-
-            const verificarSenha = await compare(password, user.password);
+            const user = await this.userData.buscarUsuarioPorEmail(res, email) as any;
+            
+            const verificarSenha = await compare(password, user.senha);
 
             if (!user || !verificarSenha) {
-                throw new Error("Credenciais inválidas");
+                BadRequestException(res, "Credenciais inválidas");
             }
-            
+
             const payload: payload = {
                 id: user.id,
                 role: user.cargo
             }
 
-            const token = await generateToken(payload)
+            const token = await generateToken(payload);
 
-            return token
+            return token;
 
-        } catch (error: any) {
-            throw new Error(error.message || "Erro ao efetuar o login do usuário");
-        }
     };
-    
-    atualizarSenha = async (token: string, newPassword: string) => {
-        try {
+
+    atualizarSenha = async (res: Response, token: string, newPassword: string) => {
             if (!token || !newPassword) {
-                throw new Error("Token ou senha faltantes");
+                BadRequestException(res, "Campos faltantes");
             }
 
-            const payload = verifyToken(token); 
+            const payload = verifyToken(token);
             if (!payload) {
-                throw new Error("Token inválido ou expirado");
+                BadRequestException(res, "Token inválido ou expirado");
             }
 
-            const user = await this.userData.buscarUsuarioPorId(payload.id);
+            const user = await this.userData.buscarUsuarioPorId(res, payload.id);
             if (!user) {
-                throw new Error("Usuário inexistente");
+                UnprocessableEntityException(res, "Usuário inexistente");
             }
 
-            const result = await this.userData.alterarSenha(user.id, newPassword);
+            await this.userData.alterarSenha(res, user.id, newPassword);
 
-            return result
-        } catch (error: any) {
-            console.error("Erro ao alterar a senha:", error.message);
-            throw new Error("Erro ao processar atualização de senha");
-        }
+            return;
     };
 
-    atualizarDados = async (token: string, newUsername: string, newEmail: string, newTelefone:string) => {
-        try {
-            if (!token || !newUsername || !newEmail || !newTelefone ) {
-                throw new Error("Token ou campos faltantes");
+    atualizarDados = async (res: Response, token: string, newUsername: string, newEmail: string, newTelefone: string) => {
+
+            if (!token || !newUsername || !newEmail || !newTelefone) {
+                BadRequestException(res, "Campos faltantes");
             }
 
-            const payload = verifyToken(token); 
+            const payload = verifyToken(token);
             if (!payload) {
-                throw new Error("Token inválido ou expirado");
+                BadRequestException(res, "Token inválido ou expirado");
             }
 
-            const user = await this.userData.buscarUsuarioPorId(payload.id);
+            const user = await this.userData.buscarUsuarioPorId(res, payload.id);
             if (!user) {
-                throw new Error("Usuário inexistente");
+                UnprocessableEntityException(res, "Usuário inexistente");
             }
 
-            const result = await this.userData.alterarDados(user.id, newUsername, newEmail, newTelefone);
+            await this.userData.alterarDados(res, user.id, newUsername, newEmail, newTelefone);
 
-            return result
-
-        } catch (error: any) {
-            console.error("Erro ao alterar a senha:", error.message);
-            throw new Error("Erro ao processar atualização de senha");
-        }
+            return;
     }
 
-    deletarUsuario = async ( token: string ) => {
-        try {
-            if (!token ) {
-                throw new Error("Token faltante");
+    deletarUsuario = async (res: Response,token: string) => {
+
+            if (!token) {
+                BadRequestException(res, "Token faltante");
             }
 
-            const payload = verifyToken(token); 
+            const payload = verifyToken(token);
             if (!payload) {
-                throw new Error("Token inválido ou expirado");
+                BadRequestException(res, "Token inválido ou expirado");
             }
 
-            const user = await this.userData.buscarUsuarioPorId(payload.id);
+            const user = await this.userData.buscarUsuarioPorId(res, payload.id);
+            console.log(user);
             if (!user) {
-                throw new Error("Usuário inexistente");
+                UnprocessableEntityException(res, "Usuário inexistente");
             }
 
-            const result =await this.userData.deletarUsuario(user.id);
-            return result;
-            
-        } catch (error: any) {
-            console.error("Erro ao alterar a senha:", error.message);
-            throw new Error("Erro ao processar atualização de senha");
-        }
+            await this.userData.deletarUsuario(res, user.id);
+            return;
+
     }
 }
 

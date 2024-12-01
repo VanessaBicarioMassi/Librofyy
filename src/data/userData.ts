@@ -1,10 +1,12 @@
 import db from "../services/db";
+import { InternalServerErrorException } from "../services/exeception";
+import { Response } from "express";
 
 export class UserData {
 
-    cadastroUsuario = async (id: string, username: string, email: string, senha: string, telefone: string, cpf: string, cargo: string) => {
+    cadastroUsuario = async (res: Response, id: string, username: string, email: string, senha: string, telefone: string, cpf: string, cargo: string) => {
         try {
-            const result = await db("usuarios").insert({
+            await db("usuarios").insert({
                 id,
                 username,
                 email,
@@ -14,65 +16,64 @@ export class UserData {
                 cargo
             });
 
-            return { message: "Usuário cadastrado com sucesso"};
+            return { message: "Usuário cadastrado com sucesso" };
         } catch (error: any) {
-            console.error("Erro ao cadastrar usuário no banco de dados:", error.message);
-            throw new Error("Erro ao cadastrar usuário. Tente novamente mais tarde.");
+            InternalServerErrorException(res, error.sqlMessage)
         }
     }
-    
-    buscarUsuarioPorEmail = async (email: string) => {
+
+    buscarUsuarioPorEmail = async (res: Response, email: string) => {
         try {
             const [user] = await db('usuarios').where({ email });
             return user;
         } catch (error: any) {
-            throw new Error(error.sqlMessage || error.message);
+            InternalServerErrorException(res, error.sqlMessage);
         }
     }
 
-    buscarUsuarioPorId = async (id: string) => {
+    buscarUsuarioPorId = async (res: Response, id: string) => {
         try {
             const [user] = await db('usuarios').where({ id });
             return user;
         } catch (error: any) {
-            throw new Error(error.sqlMessage || error.message);
+            InternalServerErrorException(res, error.sqlMessage);
         }
     }
 
-    verificarCPF = async (cpf: string) => {
+    verificarCPF = async (res: Response, cpf: string) => {
         try {
             const [user] = await db('usuarios').where({ cpf });
             return user;
         } catch (error: any) {
-            throw new Error(error.sqlMessage || error.message);
+            InternalServerErrorException(res, error.sqlMessage);
         }
     }
 
-    alterarSenha = async (id: string, newPassword: string) => {
+    alterarSenha = async (res:Response, id: string, newPassword: string) => {
         try {
-            await db('usuarios').where({id}).update({senha: newPassword})
-            return { message: "Senha atualizada com sucesso" };
+            await db('usuarios').where({ id }).update({ senha: newPassword });
+            return;
         } catch (error: any) {
-            throw new Error(error.sqlMessage || error.message);
+            InternalServerErrorException(res, error.sqlMessage);
         }
     }
 
-    alterarDados = async (id: string, newUsername: string, newEmail: string, newTelefone: string) => {
+    alterarDados = async (res:Response, id: string, newUsername: string, newEmail: string, newTelefone: string) => {
         try {
-            await db('usuarios').where({id}).update({username: newUsername, email: newEmail, telefone: newTelefone})
-            return { message: "Dados atualizados com sucesso" };
+            await db('usuarios').where({ id }).update({ username: newUsername, email: newEmail, telefone: newTelefone })
+            return;
         } catch (error: any) {
-            throw new Error(error.sqlMessage || error.message);
+            InternalServerErrorException(res, error.sqlMessage);
         }
     }
 
-    deletarUsuario = async ( id: string ) => {
+    deletarUsuario = async (res: Response, id: string) => {
         try {
             await db('usuarios').where({ id }).delete();
-            return { message: "Usuário deletado com sucesso"};
+            return;
 
         } catch (error: any) {
-            throw new Error(error.sqlMessage || error.message);
+            InternalServerErrorException(res, error.sqlMessage);
         }
     }
 }

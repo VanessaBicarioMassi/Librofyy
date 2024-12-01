@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
 import { BooksData } from "../data/booksData";
+import { Response } from "express";
 
 export class BooksBusiness {
     private booksData: BooksData;
@@ -8,20 +8,16 @@ export class BooksBusiness {
         this.booksData = new BooksData();
     }
 
-    buscarLivros = async ( titulo?: string, autor?: string, genero?: string, dataPublicacao?: Date ) => {
-        try {
+    buscarLivros = async ( res: Response, titulo?: string, autor?: string, genero?: string, dataPublicacao?: Date ) => {
+
             let books;
-            if (!titulo && !autor && !genero && !dataPublicacao ) {
-                 books = await this.booksData.buscarTodosLivros();
-            }else{
-                 books = await this.booksData.buscarLivros(titulo, autor, genero, dataPublicacao);
+            if (!titulo && !autor && !genero && !dataPublicacao) {
+                books = await this.booksData.buscarTodosLivros(res);
+            } else {
+                books = await this.booksData.buscarLivros(res, titulo, autor, genero, dataPublicacao);
             }
 
-            return books
+            return books;
 
-        } catch (error: any) {
-            throw new Error(error.message || "Erro ao buscar livros");
-        }
-
+        } 
     }
-}
