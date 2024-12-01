@@ -8,16 +8,15 @@ export class BooksBusiness {
         this.booksData = new BooksData();
     }
 
-    buscarLivros = async ( res: Response, titulo?: string, autor?: string, genero?: string, dataPublicacao?: Date ) => {
+    buscarLivros = async (res: Response, titulo?: string, autor?: string, genero?: string, dataPublicacao?: Date) => {
 
-            let books;
-            if (!titulo && !autor && !genero && !dataPublicacao) {
-                books = await this.booksData.buscarTodosLivros(res);
-            } else {
-                books = await this.booksData.buscarLivros(res, titulo, autor, genero, dataPublicacao);
-            }
+        let books;
+        if (!titulo && !autor && !genero && !dataPublicacao) {
+            books = await this.booksData.buscarTodosLivros(res);
+        } else {
+            books = await this.booksData.buscarLivros(res, titulo, autor, genero, dataPublicacao);
+        }
 
-            return books;
-
-        } 
+        return books;
     }
+}

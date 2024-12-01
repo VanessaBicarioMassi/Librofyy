@@ -25,6 +25,7 @@ export class UserData {
     buscarUsuarioPorEmail = async (res: Response, email: string) => {
         try {
             const [user] = await db('usuarios').where({ email });
+
             return user;
         } catch (error: any) {
             InternalServerErrorException(res, error.sqlMessage);
@@ -34,6 +35,7 @@ export class UserData {
     buscarUsuarioPorId = async (res: Response, id: string) => {
         try {
             const [user] = await db('usuarios').where({ id });
+
             return user;
         } catch (error: any) {
             InternalServerErrorException(res, error.sqlMessage);
@@ -43,24 +45,27 @@ export class UserData {
     verificarCPF = async (res: Response, cpf: string) => {
         try {
             const [user] = await db('usuarios').where({ cpf });
+
             return user;
         } catch (error: any) {
             InternalServerErrorException(res, error.sqlMessage);
         }
     }
 
-    alterarSenha = async (res:Response, id: string, newPassword: string) => {
+    alterarSenha = async (res: Response, id: string, newPassword: string) => {
         try {
             await db('usuarios').where({ id }).update({ senha: newPassword });
+
             return;
         } catch (error: any) {
             InternalServerErrorException(res, error.sqlMessage);
         }
     }
 
-    alterarDados = async (res:Response, id: string, newUsername: string, newEmail: string, newTelefone: string) => {
+    alterarDados = async (res: Response, id: string, newUsername: string, newEmail: string, newTelefone: string) => {
         try {
             await db('usuarios').where({ id }).update({ username: newUsername, email: newEmail, telefone: newTelefone })
+
             return;
         } catch (error: any) {
             InternalServerErrorException(res, error.sqlMessage);
@@ -70,8 +75,8 @@ export class UserData {
     deletarUsuario = async (res: Response, id: string) => {
         try {
             await db('usuarios').where({ id }).delete();
-            return;
 
+            return;
         } catch (error: any) {
             InternalServerErrorException(res, error.sqlMessage);
         }

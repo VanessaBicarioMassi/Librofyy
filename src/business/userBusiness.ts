@@ -17,139 +17,134 @@ export class UserBusiness {
     }
 
     cadastro = async (res: Response, username: string, email: string, senha: string, telefone: string, cpf: string) => {
-    
-            if (!username || !email || !senha || !telefone || !cpf) {
-                return BadRequestException(res, "Campos faltantes");
-            }
-    
-            if (email.indexOf("@") === -1 || email.indexOf("@") === 0) {
-                return BadRequestException(res, "Email inválido");
-            }
-    
-            if (senha.length < 8) {
-                return BadRequestException(res, "Senha inválida");
-            }
-    
-            if (!isCpfValid(cpf)) {
-                return BadRequestException(res, "CPF inválido");
-            }
-    
-            if (!isPhoneValid(telefone)) {
-                return BadRequestException(res, "Número de telefone inválido");
-            }
-    
-            const verificarEmail = await this.userData.buscarUsuarioPorEmail(res, email);
-            if (verificarEmail) {
-                return ConflictException(res, "Email já está em uso.");
-            }
-    
-            const verificarCPF = await this.userData.verificarCPF(res, cpf);
-            if (verificarCPF) {
-                return ConflictException(res, "CPF já está em uso.");
-            }
-    
-            const senhaCriptografada = await hash(senha);
-            const id = generateId();
-            const cargo = "USER";
-            await this.userData.cadastroUsuario(res, id as string, username, email, senhaCriptografada, telefone, cpf, cargo);
-    
-            const payload: payload = {
-                id: id,
-                role: cargo as userRole
-            };
-    
-            const token = await generateToken(payload);
-    
-            return token
+        if (!username || !email || !senha || !telefone || !cpf) {
+            return BadRequestException(res, "Campos faltantes");
+        }
+
+        if (email.indexOf("@") === -1 || email.indexOf("@") === 0) {
+            return BadRequestException(res, "Email inválido");
+        }
+
+        if (senha.length < 8) {
+            return BadRequestException(res, "Senha inválida");
+        }
+
+        if (!isCpfValid(cpf)) {
+            return BadRequestException(res, "CPF inválido");
+        }
+
+        if (!isPhoneValid(telefone)) {
+            return BadRequestException(res, "Número de telefone inválido");
+        }
+
+        const verificarEmail = await this.userData.buscarUsuarioPorEmail(res, email);
+        if (verificarEmail) {
+            return ConflictException(res, "Email já está em uso.");
+        }
+
+        const verificarCPF = await this.userData.verificarCPF(res, cpf);
+        if (verificarCPF) {
+            return ConflictException(res, "CPF já está em uso.");
+        }
+
+        const senhaCriptografada = await hash(senha);
+        const id = generateId();
+        const cargo = "USER";
+
+        await this.userData.cadastroUsuario(res, id as string, username, email, senhaCriptografada, telefone, cpf, cargo);
+
+        const payload: payload = {
+            id: id,
+            role: cargo as userRole
+        };
+
+        const token = await generateToken(payload);
+
+        return token
     };
-    
+
 
     login = async (res: Response, email: string, password: string) => {
-        
-            if (!email || !password) {
-                BadRequestException(res, "Campos faltantes");
-            }
+        if (!email || !password) {
+            BadRequestException(res, "Campos faltantes");
+        }
 
-            const user = await this.userData.buscarUsuarioPorEmail(res, email) as any;
-            
-            const verificarSenha = await compare(password, user.senha);
+        const user = await this.userData.buscarUsuarioPorEmail(res, email) as any;
+        const verificarSenha = await compare(password, user.senha);
 
-            if (!user || !verificarSenha) {
-                BadRequestException(res, "Credenciais inválidas");
-            }
+        if (!user || !verificarSenha) {
+            BadRequestException(res, "Credenciais inválidas");
+        }
 
-            const payload: payload = {
-                id: user.id,
-                role: user.cargo
-            }
+        const payload: payload = {
+            id: user.id,
+            role: user.cargo
+        }
 
-            const token = await generateToken(payload);
+        const token = await generateToken(payload);
 
-            return token;
-
+        return token;
     };
 
     atualizarSenha = async (res: Response, token: string, newPassword: string) => {
-            if (!token || !newPassword) {
-                BadRequestException(res, "Campos faltantes");
-            }
+        if (!token || !newPassword) {
+            BadRequestException(res, "Campos faltantes");
+        }
 
-            const payload = verifyToken(token);
-            if (!payload) {
-                BadRequestException(res, "Token inválido ou expirado");
-            }
+        const payload = verifyToken(token);
+        if (!payload) {
+            BadRequestException(res, "Token inválido ou expirado");
+        }
 
-            const user = await this.userData.buscarUsuarioPorId(res, payload.id);
-            if (!user) {
-                UnprocessableEntityException(res, "Usuário inexistente");
-            }
+        const user = await this.userData.buscarUsuarioPorId(res, payload.id);
+        if (!user) {
+            UnprocessableEntityException(res, "Usuário inexistente");
+        }
 
-            await this.userData.alterarSenha(res, user.id, newPassword);
+        await this.userData.alterarSenha(res, user.id, newPassword);
 
-            return;
+        return;
     };
 
     atualizarDados = async (res: Response, token: string, newUsername: string, newEmail: string, newTelefone: string) => {
+        if (!token || !newUsername || !newEmail || !newTelefone) {
+            BadRequestException(res, "Campos faltantes");
+        }
 
-            if (!token || !newUsername || !newEmail || !newTelefone) {
-                BadRequestException(res, "Campos faltantes");
-            }
+        const payload = verifyToken(token);
+        if (!payload) {
+            BadRequestException(res, "Token inválido ou expirado");
+        }
 
-            const payload = verifyToken(token);
-            if (!payload) {
-                BadRequestException(res, "Token inválido ou expirado");
-            }
+        const user = await this.userData.buscarUsuarioPorId(res, payload.id);
+        if (!user) {
+            UnprocessableEntityException(res, "Usuário inexistente");
+        }
 
-            const user = await this.userData.buscarUsuarioPorId(res, payload.id);
-            if (!user) {
-                UnprocessableEntityException(res, "Usuário inexistente");
-            }
+        await this.userData.alterarDados(res, user.id, newUsername, newEmail, newTelefone);
 
-            await this.userData.alterarDados(res, user.id, newUsername, newEmail, newTelefone);
-
-            return;
+        return;
     }
 
-    deletarUsuario = async (res: Response,token: string) => {
+    deletarUsuario = async (res: Response, token: string) => {
+        if (!token) {
+            BadRequestException(res, "Token faltante");
+        }
 
-            if (!token) {
-                BadRequestException(res, "Token faltante");
-            }
+        const payload = verifyToken(token);
+        if (!payload) {
+            BadRequestException(res, "Token inválido ou expirado");
+        }
 
-            const payload = verifyToken(token);
-            if (!payload) {
-                BadRequestException(res, "Token inválido ou expirado");
-            }
+        const user = await this.userData.buscarUsuarioPorId(res, payload.id);
 
-            const user = await this.userData.buscarUsuarioPorId(res, payload.id);
-            console.log(user);
-            if (!user) {
-                UnprocessableEntityException(res, "Usuário inexistente");
-            }
+        if (!user) {
+            UnprocessableEntityException(res, "Usuário inexistente");
+        }
 
-            await this.userData.deletarUsuario(res, user.id);
-            return;
+        await this.userData.deletarUsuario(res, user.id)
 
+        return;
     }
 }
 

@@ -4,17 +4,17 @@ import { Response } from "express";
 
 export class RentsData {
 
-    realizarEmprestimo = async (res:Response, idRent: string, idUser: string, idLivro: string) => {
+    realizarEmprestimo = async (res: Response, idRent: string, idUser: string, idLivro: string) => {
         try {
             await db("emprestimo").insert({ id: idRent, usuario_id: idUser, livro_id: idLivro });
-            return;
 
+            return;
         } catch (error: any) {
             InternalServerErrorException(res, error.sqlMessage);
         }
     }
 
-    buscarLivrosDoUsuario = async (res:Response, id: string) => {
+    buscarLivrosDoUsuario = async (res: Response, id: string) => {
         try {
             const books = await db("emprestimo")
                 .join("livros", "emprestimo.livro_id", "=", "livros.id")
@@ -35,28 +35,28 @@ export class RentsData {
 
     }
 
-    buscarEmprestimos = async (res:Response, idUser: string) => {
+    buscarEmprestimos = async (res: Response, idUser: string) => {
         try {
             const rents = await db("emprestimo").where({ usuario_id: idUser }).first();
-            return rents;
 
+            return rents;
         } catch (error: any) {
             InternalServerErrorException(res, error.sqlMessage);
         }
     }
 
 
-    buscarEmprestimoPorID = async (res:Response, idUser: string, idRent: string) => {
+    buscarEmprestimoPorID = async (res: Response, idUser: string, idRent: string) => {
         try {
             const emprestimo = await db("emprestimo").where({ id: idRent, usuario_id: idUser }).first();
-            return emprestimo;
 
+            return emprestimo;
         } catch (error: any) {
             InternalServerErrorException(res, error.sqlMessage);
         }
     }
 
-    cancelarEmprestimo = async (res:Response, idUser: string, idRent: string) => {
+    cancelarEmprestimo = async (res: Response, idUser: string, idRent: string) => {
         try {
             await db("emprestimo").where({ id: idRent, usuario_id: idUser }).delete();
 

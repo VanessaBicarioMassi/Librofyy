@@ -30,6 +30,7 @@ export class UserController {
     login = async (req: Request, res: Response) => {
         try {
             const { email, password } = req.body;
+
             this.userBusiness.login(res, email, password)
                 .then((token) => res.status(200).json({ message: "Login feito com sucesso", token }));
 
@@ -43,8 +44,10 @@ export class UserController {
         try {
             const token = req.headers.authorization;
             const { newPassword } = req.body;
+
             this.userBusiness.atualizarSenha(res, token as string, newPassword)
-                .then( ()=> res.status(200).json({message: "Senha atualizada com sucesso"}));
+                .then(() => res.status(200).json({ message: "Senha atualizada com sucesso" }));
+
         } catch (error: any) {
             InternalServerErrorException(res, "Não foi possível realizar a atualização de senha");
         }
@@ -54,8 +57,9 @@ export class UserController {
         try {
             const token = req.headers.authorization;
             const { newUsername, newEmail, newTelefone } = req.body;
+
             this.userBusiness.atualizarDados(res, token as string, newUsername, newEmail, newTelefone)
-            .then( ()=> res.status(200).json({message: "Dados atualizados com sucesso"}));
+                .then(() => res.status(200).json({ message: "Dados atualizados com sucesso" }));
 
 
         } catch (error: any) {
@@ -66,7 +70,10 @@ export class UserController {
     deletarUsuario = async (req: Request, res: Response) => {
         try {
             const token = req.headers.authorization;
-            this.userBusiness.deletarUsuario(res, token as string).then(()=> res.status(204).send())
+
+            this.userBusiness.deletarUsuario(res, token as string)
+                .then(() => res.status(204).send())
+
         } catch (error: any) {
             InternalServerErrorException(res, "Não foi possível realizar a exclusão do usuário");
         }

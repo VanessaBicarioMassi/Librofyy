@@ -20,12 +20,10 @@ export class BooksController {
                 autor as string,
                 genero as string,
                 data,
-            ).then((books)=> res.status(200).json({books}));
+            ).then((books) => res.status(200).json({ books }));
 
         } catch (error: any) {
             InternalServerErrorException(res, "Não foi possível realizar a busca dos livvros");
         }
-
     }
-
 }
