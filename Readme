@@ -1,3 +1,4 @@
+
 # Librofyy - Sistema de Aluguel de Livros
 
 ## Objetivo
@@ -11,12 +12,12 @@ Este projeto tem como objetivo oferecer uma solução completa para gestão de a
 
 ## Tecnologias e Ferramentas
 
-- *Framework Backend*: Express.js
-- *Banco de Dados*: PostgreSQL
-- *Query Builder*: Knex.js
-- *Autenticação*: JWT (Json Web Tokens)
-- *Segurança*: Bcrypt para hashing de senhas
-- *Variáveis de Ambiente*: Dotenv
+- **Framework Backend**: Express.js
+- **Banco de Dados**: PostgreSQL
+- **Query Builder**: Knex.js
+- **Autenticação**: JWT (Json Web Tokens)
+- **Segurança**: Bcrypt para hashing de senhas
+- **Variáveis de Ambiente**: Dotenv
 
 ## Funcionalidades
 
@@ -41,7 +42,7 @@ Este projeto tem como objetivo oferecer uma solução completa para gestão de a
 
 ### Diretórios e Arquivos
 
-plaintext
+```plaintext
 src/
 ├── business/         # Lógica de negócios
 │   ├── booksBusiness.ts
@@ -70,34 +71,34 @@ src/
 │   └── user.ts
 ├── App.ts            # Configuração inicial
 └── index.ts          # Ponto de entrada
-
+```
 
 ### Descrição dos Arquivos
 
-- *business/*: Contém as regras de negócios de usuários, livros e aluguéis.
-- *controller/*: Recebe as requisições e delega para a camada de negócios.
-- *data/*: Realiza as operações no banco de dados usando Knex.js.
-- *routers/*: Define as rotas da API.
-- *services/*: Implementa serviços como hashing, validações, tokens e conexão com o banco de dados.
+- **business/**: Contém as regras de negócios de usuários, livros e aluguéis.
+- **controller/**: Recebe as requisições e delega para a camada de negócios.
+- **data/**: Realiza as operações no banco de dados usando Knex.js.
+- **routers/**: Define as rotas da API.
+- **services/**: Implementa serviços como hashing, validações, tokens e conexão com o banco de dados.
 
 ## Endpoints
 
 ### Usuários
-- *POST /users/cadastro*: Cadastro de usuários.
-- *POST /users/login*: Login.
-- *PATCH /users/atualizarSenha*: Atualizar senha.
-- *PUT /users/atualizarDados*: Atualizar dados.
-- *DELETE /users/deletarUsuario*: Deletar usuário.
-
+- **POST /users/cadastro**: Cadastro de usuários.
+- **POST /users/login**: Login.
+- **PATCH /users/atualizarSenha**: Atualizar senha.
+- **PUT /users/atualizarDados**: Atualizar dados.
+- **DELETE /users/deletarUsuario**: Deletar usuário.
 
 ### Livros
-- *GET /books*: Listar livros com filtros opcionais.
+- **GET /books**: Listar livros com filtros opcionais.
 
 ### Aluguéis
-- *POST /rents/realizarEmprestimo/:id*: Registrar empréstimo.
-- *GET /rents/buscarLivrosDoUsuario*: Listar livros do usuário.
-- *GET /rents/buscarEmprestimos*: Listar aluguéis.
-- *DELETE /rents/cancelarEmprestimo/:id*: Cancelar empréstimo.
+- **POST /rents/realizarEmprestimo/:id**: Registrar empréstimo.
+- **GET /rents/buscarLivrosDoUsuario**: Listar livros do usuário.
+- **GET /rents/buscarEmprestimos**: Listar aluguéis.
+- **DELETE /rents/cancelarEmprestimo/:id**: Cancelar empréstimo.
+
 ## Resultados Esperados
 
 A API oferece uma experiência completa para gestão de usuários, livros e aluguéis, com segurança e validações robustas.
