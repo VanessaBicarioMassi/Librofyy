@@ -1,4 +1,3 @@
-
 # Librofyy - Sistema de Aluguel de Livros
 
 ## Objetivo
