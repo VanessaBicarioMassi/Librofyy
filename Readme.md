@@ -71,6 +71,17 @@ src/
 ├── App.ts            # Configuração inicial
 └── index.ts          # Ponto de entrada
 ```
+### Arquivos de configuração do projeto
+
+- **package-lock.json**: Arquivo do gerenciador de pacotes ( npm ).
+- **package.json**: Arquivo de configuração do projeto.
+- **tsconfig.json**: Arquivo de configuração do Typescript.
+- **.env**: Arquivo para conexão com banco de dados.
+
+### Arquivos do bancos de dados e documentação ( Postman )
+
+- **Banco de dados**: Arquivo com código do banco de dados.
+- **Documentação Postman**: Arquivo com a documentação do postman para testes da API.
 
 ### Descrição dos Arquivos
 
