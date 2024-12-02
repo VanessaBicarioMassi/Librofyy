@@ -1,0 +1,1215 @@
+{
+	"info": {
+		"_postman_id": "2c4690df-0ba3-4031-8332-9666250630fc",
+		"name": "Librofy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30517392",
+		"_collection_link": "https://librofy.postman.co/workspace/Librofy~9ee6da5e-353d-4a66-81cc-3706d679e3da/collection/29902746-2c4690df-0ba3-4031-8332-9666250630fc?action=share&source=collection_link&creator=30517392"
+	},
+	"item": [
+		{
+			"name": "Usuário",
+			"item": [
+				{
+					"name": "Criar Usuário",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"Davi\",\r\n  \"email\": \"aabertona@gmail.com\",\r\n  \"senha\": \"123456789\",\r\n  \"telefone\": \"(32)99998-9099\",\r\n  \"cpf\": \"88708314004\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3003/users/cadastro",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3003",
+							"path": [
+								"users",
+								"cadastro"
+							]
+						},
+						"description": "• Endpoint Criar Usuário\n\n• Descrição  \nEndpoint para cadastro de um novo usuário\n\n• Método  \nMétodo utilizado nesse endpoint é POST\n\n• URL  \n[http://localhost:3003/users/cadastro](http://localhost:3003/users/cadastro)\n\n• Parâmetros de consulta  \nEste endpoint não possui parâmetros de consulta\n\n• Body  \nusername ( obrigatório ): Nome do usuário  \nemail ( obrigatório ): Email do usuário  \nsenha ( obrigatório ): Senha do usuário  \ntelefone ( obrigatório ): Telefone do usuário  \ncpf (obrigatório ): CPF do usuário\n\n• Exemplo de envio:  \n{\n\n\"username\": \"Davi\",\n\n\"email\": \"[aabertona@gmail.com](https://mailto:aabertona@gmail.com)\",\n\n\"senha\": \"123456789\",\n\n\"telefone\": \"(32)99998-9099\",\n\n\"cpf\": \"88708314004\"\n\n}"
+					},
+					"response": [
+						{
+							"name": "Exemplo de Sucesso (201)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"Davi\",\r\n  \"email\": \"aabertona@gmail.com\",\r\n  \"senha\": \"123456789\",\r\n  \"telefone\": \"(32)99998-9099\",\r\n  \"cpf\": \"88708314004\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3003/users/cadastro",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3003",
+									"path": [
+										"users",
+										"cadastro"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "JSON",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n\"message\":\"Cadastro realizado com sucesso\",\r\n\"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxOTM4M2JhLTY4NzktNzZlZS05MmEwLTVlZTU1ODI0NjkyMyIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzMzMDgxOTY5LCJleHAiOjE3MzMwODczNjl9.LGACf-40nj3FKDqViSl8Vfs55r5C9ZG3jQ5QC2drq1s\"\r\n}"
+						},
+						{
+							"name": "Exemplo de Erro (400)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "//campos faltantes\r\n{\r\n  \"username\": \"Davi\",\r\n  \"email\": \"aabertona@gmail.com\",\r\n  \"senha\": \"123456789\",\r\n  \"telefone\": \"\",\r\n  \"cpf\": \"\",\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3003/users/cadastro",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3003",
+									"path": [
+										"users",
+										"cadastro"
+									]
+								},
+								"description": "• Endpoint Criar Usuário\n\n• Descrição  \nEndpoint para cadastro de um novo usuário\n\n• Método  \nMétodo utilizado nesse endpoint é POST\n\n• URL  \n/users/\n\n• Parâmetros de consulta  \nEste endpoint não possui parâmetros de consulta\n\n• Body  \nusername ( obrigatório ): Nome do usuário  \nemail ( obrigatório ): Email do usuário  \npassword ( obrigatório ): Senha do usuário\n\n• Exemplo de envio:  \n{  \nusername\": \"Vanessa\",  \n\"email\": \"[nessa@gmail.com](https://mailto:nessa@gamil.com)\",  \n\"password\": 12345678  \n}\n\n• Exemplo de retorno  \n\\- Resposta de sucesso (201):  \n{  \n\"id\": 1,  \n\"username\": \"Vanessa\",  \n\"email\": \"[nessa@gmail.com](https://mailto:nessa@gmail.com)\",  \n\"message\": \"Usuário criado com sucesso\"  \n}\n\n\\- Resposta de Erro (400):  \n{  \n\"message\": \"Nome, email e senha são obrigatórios.\"  \n}"
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "JSON",
+							"header": [],
+							"cookie": [],
+							"body": "// campos faltantes\r\n{\r\n\"message\": \"Campos faltantes.\"\r\n}"
+						},
+						{
+							"name": "Exemplo de Erro (409)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "//cadastro de email já em uso\r\n{\r\n  \"username\": \"Davi\",\r\n  \"email\": \"aabertona@gmail.com\",\r\n  \"senha\": \"123456789\",\r\n  \"telefone\": \"(32)99818-9099\",\r\n  \"cpf\": \"88708314004\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3003/users/cadastro",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3003",
+									"path": [
+										"users",
+										"cadastro"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Email já está em uso.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Fazer Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"aabertona@gmail.com\",\r\n  \"senha\": \"123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3003/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3003",
+							"path": [
+								"users",
+								"login"
+							]
+						},
+						"description": "• Endpoint Login de Usuário\n\n• Descrição  \nEndpoint para fazer Login de Usuário\n\n• Método  \nMétodo utilizado nesse endpoint é POST\n\n• URL\n\n[http://localhost:3003/users/login](http://localhost:3003/users/login)\n\n• Parâmetros de consulta  \nEste endpoint não possui parâmetros de consulta\n\n• Body  \nemail ( obrigatório ): Email do usuário  \nsenha ( obrigatório ): Senha do usuário  \n\n• Exemplo de envio:  \n{\n\n\"email\": \"[aabertona@gmail.com](https://mailto:aabertona@gmail.com)\",\n\n\"senha\": \"123456789\"\n\n}"
+					},
+					"response": [
+						{
+							"name": "Fazer Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "//Login feito com sucesso\r\n{\r\n  \"email\": \"abertona@gmail.com\",\r\n  \"password\": \"123456789\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3003/users/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3003",
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\r\n    \"message\":\"Login realizado com sucesso\",\r\n    \"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxOTM4M2JhLTY4NzktNzZlZS05MmEwLTVlZTU1ODI0NjkyMyIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzMzMDgxOTY5LCJleHAiOjE3MzMwODczNjl9.LGACf-40nj3FKDqViSl8Vfs55r5C9ZG3jQ5QC2drq1s\"\r\n}\r\n"
+						},
+						{
+							"name": "Exemplo de Erro (400)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "//Senha inválida\r\n{\r\n  \"email\": \"abertona@gmail.com\",\r\n  \"password\": \"126789\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3003/users/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3003",
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Senha inválida.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Atualizar senha",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxOTM4M2JhLTY4NzktNzZlZS05MmEwLTVlZTU1ODI0NjkyMyIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzMzMDgxOTY5LCJleHAiOjE3MzMwODczNjl9.LGACf-40nj3FKDqViSl8Vfs55r5C9ZG3jQ5QC2drq1s",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"novaSenha\": \"126788888898\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3003/users/atualizarSenha",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3003",
+							"path": [
+								"users",
+								"atualizarSenha"
+							]
+						},
+						"description": "• Endpoint Atualizado para atualizar senha do Usuário\n\n• Descrição  \nEndpoint para atualizar senha do usuário\n\n• Método  \nMétodo utilizado nesse endpoint é PATCH\n\n• URL  \n[http://localhost:3003/users/atualizarSenha](http://localhost:3003/users/atualizarSenha)\n\n• Body  \nnovaSenha ( Obrigatório ): nova senha do usuário\n\n• Exemplo de envio:  \n{ \"novaSenha\": \"126788888898\" }"
+					},
+					"response": [
+						{
+							"name": "Exemplo de Sucesso (200)",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxOTM4M2JhLTY4NzktNzZlZS05MmEwLTVlZTU1ODI0NjkyMyIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzMzMDgxOTY5LCJleHAiOjE3MzMwODczNjl9.LGACf-40nj3FKDqViSl8Vfs55r5C9ZG3jQ5QC2drq1s",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "//Atualização de senha\r\n{\r\n  \"novaSenha\": \"126788888898\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3003/users/atualizarSenha",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3003",
+									"path": [
+										"users",
+										"atualizarSenha"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "JSON",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n\"message\": \"Senha atualizada com sucesso\"\r\n}"
+						},
+						{
+							"name": "Exemplo de Erro (400)",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxOTM4M2JhLTY4NzktNzZlZS05MmEwLTVlZTU1ODI0NjkyMyIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzMzMDgxOTY5LCJleHAiOjE3MzMwODczNjl9.LGACf-40nj3FKDqViSl8Vfs55r5C9ZG3jQ5QC2drq1s",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "//Não contém token\r\n{\r\n  \"novaSenha\": \"126788888898\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3003/users/atualizarSenha",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3003",
+									"path": [
+										"users",
+										"atualizarSenha"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "JSON",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n\"message\": \"Token faltante\"\r\n}"
+						},
+						{
+							"name": "Exemplo de Erro (409)",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxOTM4M2JhLTY4NzktNzZlZS05MmEwLTVlZTU1ODI0NjkyMyIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzMzMDgxOTY5LCJleHAiOjE3MzMwODczNjl9.LGACf-40nj3FKDqViSl8Vfs55r5C9ZG3jQ5QC2drq1s",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "//Não existe o usuário\r\n{\r\n  \"novaSenha\": \"126788888898\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3003/users/atualizarSenha",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3003",
+									"path": [
+										"users",
+										"atualizarSenha"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "JSON",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n\"message\": \"Usuário inexistente\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Atualizar todos dados do usuário",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxOTM4M2JhLTY4NzktNzZlZS05MmEwLTVlZTU1ODI0NjkyMyIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzMzMDgxOTY5LCJleHAiOjE3MzMwODczNjl9.LGACf-40nj3FKDqViSl8Vfs55r5C9ZG3jQ5QC2drq1s",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"novoUsername\": \"Davia\",\r\n  \"novoEmail\": \"asoares@gmail.com\",\r\n  \"novoTelefone\": \"(32)99817-9099\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3003/users/atualizarDados",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3003",
+							"path": [
+								"users",
+								"atualizarDados"
+							]
+						},
+						"description": "• Endpoint Atualizar todos dados do Usuário\n\n• Descrição  \nEndpoint para atualizar todos dados do usuário\n\n• Método  \nMétodo utilizado nesse endpoint é PUT\n\n• URL  \n[http://localhost:3003/users/atualizarDados](http://localhost:3003/users/atualizarDados)\n\n• Parâmetros de consulta  \nNão Possui parametro de consulta\n\n• Body  \nnovoUsername ( Opcional ): Nome do usuário  \nnovoEmail ( Opcional ): Email do usuário  \nnovoTelefone ( Opcional ): Telefone do usuário\n\n• Exemplo de envio:  \n{\n\n\"novoUsername\": \"Davia\",\n\n\"novoEmail\": \"[asoares@gmail.com](https://mailto:asoares@gmail.com)\",\n\n\"novoTelefone\": \"(32)99817-9099\"\n\n}"
+					},
+					"response": [
+						{
+							"name": "Exemplo de sucesso (200)",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxOTM4M2JhLTY4NzktNzZlZS05MmEwLTVlZTU1ODI0NjkyMyIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzMzMDgxOTY5LCJleHAiOjE3MzMwODczNjl9.LGACf-40nj3FKDqViSl8Vfs55r5C9ZG3jQ5QC2drq1s",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "//Dados atualizados com sucesso\r\n{\r\n  \"novoUsername\": \"Davia\",\r\n  \"novoEmail\": \"asoares@gmail.com\",\r\n  \"novoTelefone\": \"(32)99817-9099\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3003/users/atualizarDados",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3003",
+									"path": [
+										"users",
+										"atualizarDados"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "JSON",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n\"message\": \"Dados atualizados com sucesso\"\r\n}"
+						},
+						{
+							"name": "Exemplo de Erro (400)",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxOTM4M2JhLTY4NzktNzZlZS05MmEwLTVlZTU1ODI0NjkyMyIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzMzMDgxOTY5LCJleHAiOjE3MzMwODczNjl9.LGACf-40nj3FKDqViSl8Vfs55r5C9ZG3jQ5QC2drq1s",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "//Token inválido ou inexistente ao atualizar dados\r\n{\r\n  \"novoUsername\": \"Davia\",\r\n  \"novoEmail\": \"asoares@gmail.com\",\r\n  \"novoTelefone\": \"(32)99817-9099\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3003/users/atualizarDados",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3003",
+									"path": [
+										"users",
+										"atualizarDados"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "JSON",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n\"message\": \"Token inválido ou inexistente.\"\r\n}"
+						},
+						{
+							"name": "Exemplo de Erro (409)",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxOTM4M2JhLTY4NzktNzZlZS05MmEwLTVlZTU1ODI0NjkyMyIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzMzMDgxOTY5LCJleHAiOjE3MzMwODczNjl9.LGACf-40nj3FKDqViSl8Vfs55r5C9ZG3jQ5QC2drq1s",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "//Usuário não existe\r\n{\r\n  \"novoUsername\": \"Davia\",\r\n  \"novoEmail\": \"asoares@gmail.com\",\r\n  \"novoTelefone\": \"(32)99817-9099\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3003/users/atualizarDados",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3003",
+									"path": [
+										"users",
+										"atualizarDados"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "JSON",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n\"message\": \"Usuário inexistente\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Deletar Usuário por ID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxOTM4M2JhLTY4NzktNzZlZS05MmEwLTVlZTU1ODI0NjkyMyIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzMzMDgxOTY5LCJleHAiOjE3MzMwODczNjl9.LGACf-40nj3FKDqViSl8Vfs55r5C9ZG3jQ5QC2drq1s",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3003/users/deletarUsuario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3003",
+							"path": [
+								"users",
+								"deletarUsuario"
+							]
+						},
+						"description": "• Endpoint Deletar Usuário por ID\n\n• Descrição  \nEndpoint para deletar usuário pelo ID\n\n• Método  \nMétodo utilizado nesse endpoint é DELETE\n\n• URL  \n[http://localhost:3003/users/deletarUsuario](http://localhost:3003/users/deletarUsuario)\n\n• Parâmetros de consulta  \nNão possui parâmetro de consulta"
+					},
+					"response": [
+						{
+							"name": "Exemplo de Sucesso (204)",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxOTM4M2JhLTY4NzktNzZlZS05MmEwLTVlZTU1ODI0NjkyMyIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzMzMDgxOTY5LCJleHAiOjE3MzMwODczNjl9.LGACf-40nj3FKDqViSl8Vfs55r5C9ZG3jQ5QC2drq1s",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3003/users/deletarUsuario",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3003",
+									"path": [
+										"users",
+										"deletarUsuario"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "JSON",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Exemplo de Erro (400)",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxOTM4M2JhLTY4NzktNzZlZS05MmEwLTVlZTU1ODI0NjkyMyIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzMzMDgxOTY5LCJleHAiOjE3MzMwODczNjl9.LGACf-40nj3FKDqViSl8Vfs55r5C9ZG3jQ5QC2drq1s",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3003/users/deletarUsuario",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3003",
+									"path": [
+										"users",
+										"deletarUsuario"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "JSON",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n\"message\": \"Token inválido ou inexistente.\"\r\n}"
+						},
+						{
+							"name": "Exemplo de Erro (409)",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxOTM3ZWJlLTNiMmItNzIzZi1hZWViLTFjZGJlOTAyNjA3MyIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzMyOTk4NzIxLCJleHAiOjE3MzMwMDQxMjF9.q3B65Gm7GshAUev4usfye8xHTfFTPM3wB6LATNX6zNc",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3003/users/deletarUsuario",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3003",
+									"path": [
+										"users",
+										"deletarUsuario"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\r\n    \"message\" : \"Usuário inexistente.\"\r\n}"
+						}
+					]
+				}
+			],
+			"description": "## **Pasta Usuário**\n\n• **Descrição**  \nNesta pasta está os endpoints destinados ao usuário\n\n• **Endpoints**  \n\\- POST Criar usuário  \n\\- PUT Atualizar todos dados do usuário  \n\\- PATCH Atualizar dado específico do usuário  \n\\- DELETE Deletar usuário por ID"
+		},
+		{
+			"name": "Livros",
+			"item": [
+				{
+					"name": "Buscar livro",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3003/books/buscarLivros?titulo=&autor=&genero=&dataPublicacao",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3003",
+							"path": [
+								"books",
+								"buscarLivros"
+							],
+							"query": [
+								{
+									"key": "titulo",
+									"value": ""
+								},
+								{
+									"key": "autor",
+									"value": ""
+								},
+								{
+									"key": "genero",
+									"value": ""
+								},
+								{
+									"key": "dataPublicacao",
+									"value": null
+								}
+							]
+						},
+						"description": "• EndPoint Buscar Livro\n\n• Descrição  \nEndpoint para retornar o livros especificos\n\n• Método  \nMétodo utilizado nesse endpoint é GET\n\n• URL  \n[http://localhost:3003/books/buscarLivros?titulo=&amp;autor=&amp;genero=Terror&amp;dataPublicacao](http://localhost:3003/books/buscarLivros?titulo=&autor=&genero=Terror&dataPublicacao)\n\n• Parâmetros de consulta  \nEste endpoint possui parâmetros de consulta por titulo, autor, genero e data de publicação."
+					},
+					"response": [
+						{
+							"name": "Exemplo de Sucesso (200)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3003/books/buscarLivros?titulo=&autor=&genero=Comédia&dataPublicacao",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3003",
+									"path": [
+										"books",
+										"buscarLivros"
+									],
+									"query": [
+										{
+											"key": "titulo",
+											"value": ""
+										},
+										{
+											"key": "autor",
+											"value": ""
+										},
+										{
+											"key": "genero",
+											"value": "Comédia"
+										},
+										{
+											"key": "dataPublicacao",
+											"value": null
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "JSON",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n\"id\": 1,\r\n\"name\": \"Diário de um Banana\",\r\n\"autor\": \"Jeff Kinney\",\r\n\"status\": \"Disponível\",\r\n\"genero\": \"Comédia\"\r\n}\r\n"
+						}
+					]
+				}
+			],
+			"description": "## Pasta Livros\n\n• **Descrição**  \nNesta pasta está os endpoints destinados ao livros\n\n• **Endpoints**  \n\\- GET Buscar todos livros  \n\\- POST Adicionar livros ao usuário  \n\\- DELETE Deletar livro por nome"
+		},
+		{
+			"name": "Empréstimo",
+			"item": [
+				{
+					"name": "Adicionar livros ao usuário",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxOTM4M2JlLWMzMjQtNzdiNC04MTM1LWI2YWFlNmUzNTYxMCIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzMzMDgyMTM3LCJleHAiOjE3MzMwODc1Mzd9.uD6XPhrGfWkZJ2LQxZfncyzXssTwvS7clsrF8GhnK7g",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3003/rents/realizarEmprestimo/dffce0c2-fac4-4009-b640-085dae1b8e29",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3003",
+							"path": [
+								"rents",
+								"realizarEmprestimo",
+								"dffce0c2-fac4-4009-b640-085dae1b8e29"
+							]
+						},
+						"description": "• EndPoint Adicionar livros ao usuário\n\n• Descrição  \nEndpoint para adicionar livros a lista de livros alugado do usuário\n\n• Método  \nMétodo utilizado nesse endpoint é POST\n\n• URL  \n[http://localhost:3003/rents/realizarEmprestimo/8da3c031-ee61-43b7-a33d-969d75c5f414](http://localhost:3003/rents/realizarEmprestimo/8da3c031-ee61-43b7-a33d-969d75c5f414)\n\n• Parâmetros de consulta  \nEste endpoint não possui parâmetros de consulta\n\n• Body  \nNada passado pelo Body"
+					},
+					"response": [
+						{
+							"name": "Exemplo de Sucesso (201)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxOTM4M2JhLTY4NzktNzZlZS05MmEwLTVlZTU1ODI0NjkyMyIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzMzMDgxOTY5LCJleHAiOjE3MzMwODczNjl9.LGACf-40nj3FKDqViSl8Vfs55r5C9ZG3jQ5QC2drq1s",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3003/rents/realizarEmprestimo/8da3c031-ee61-43b7-a33d-969d75c5f414",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3003",
+									"path": [
+										"rents",
+										"realizarEmprestimo",
+										"8da3c031-ee61-43b7-a33d-969d75c5f414"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "JSON",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n\"message\": \"Emprestimo realizado com sucesso\"\r\n}"
+						},
+						{
+							"name": "Exemplo de Erro (404)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3003/rents/realizarEmprestimo/8da3c031-ee61-43b7-a33d-969d75c5f414",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3003",
+									"path": [
+										"rents",
+										"realizarEmprestimo",
+										"8da3c031-ee61-43b7-a33d-969d75c5f414"
+									]
+								},
+								"description": "• EndPoint Adicionar livros ao usuário\n\n• Descrição  \nEndpoint para adicionar livros a lista de livros alugado do usuário\n\n• Método  \nMétodo utilizado nesse endpoint é POST\n\n• URL  \n/users/:id/books/\n\n• Parâmetros de consulta  \nEste endpoint não possui parâmetros de consulta\n\n• Body  \nname ( obrigatório ): Nome do livro\n\n• Exemplos de envio  \n{  \n\"name\": \"Harry Potter\"  \n}\n\n• Exemplos de retorno  \n\\- Resposta de sucesso (201):  \n{  \n\"message\": \"Livro adicionado com sucesso a sua lista\"  \n}\n\n\\- Resposta de erro (404):  \n{  \n\"message\": \"Livro não encontrado\"  \n}\n\n\\- Resposta de erro (404):  \n{  \n\"message\": \"Livro indisponível\"  \n}"
+							},
+							"status": "Not Found",
+							"code": 409,
+							"_postman_previewlanguage": "JSON",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n\"message\": \"Livro não encontrado\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Buscar livro Cliente",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxOTM4M2JlLWMzMjQtNzdiNC04MTM1LWI2YWFlNmUzNTYxMCIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzMzMDgyMTM3LCJleHAiOjE3MzMwODc1Mzd9.uD6XPhrGfWkZJ2LQxZfncyzXssTwvS7clsrF8GhnK7g",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3003/rents/buscarLivrosDoUsuario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3003",
+							"path": [
+								"rents",
+								"buscarLivrosDoUsuario"
+							]
+						},
+						"description": "• EndPoint Buscar Livros do cliente\n\n• Descrição  \nEndpoint para retornar o livros especificados do cliente\n\n• Método  \nMétodo utilizado nesse endpoint é GET\n\n• URL  \n[http://localhost:3003/rents/buscarLivrosDoUsuario](http://localhost:3003/rents/buscarLivrosDoUsuario)"
+					},
+					"response": [
+						{
+							"name": "Exemplo de Sucesso (200)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "?titulo&autor&genero=comédia",
+									"query": [
+										{
+											"key": "titulo",
+											"value": null
+										},
+										{
+											"key": "autor",
+											"value": null
+										},
+										{
+											"key": "genero",
+											"value": "comédia"
+										}
+									]
+								},
+								"description": "• EndPoint Buscar Livros do cliente\n\n• Descrição  \nEndpoint para retornar o livros especificados do cliente\n\n• Método  \nMétodo utilizado nesse endpoint é GET\n\n• URL  \n/users/:id/books?titulo=&autor=&genero\n\n• Parâmetros de consulta  \nEste endpoint possui parâmetros de consulta por titulo, autor e genero\n\n• Exemplo de retorno  \n\\- Resposta de Sucesso (200) :  \n\\[{  \n\"id\": 1,  \n\"name\": \"Diário de um Banana\",  \n\"autor\": \"Jeff Kinney\",  \n\"status\": \"Disponível\",  \n\"genero\": \"Comédia\"  \n},  \n{  \n\"id\": 2,  \n\"name\": \"Harry Potter\",  \n\"autor\": \"J. K. Rowling\",  \n\"status\": \"Alugado\",  \n\"genero\": \"Fantasia, Drama\"  \n}\\]"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "JSON",
+							"header": [],
+							"cookie": [],
+							"body": "[{\r\n\"id\": 1,\r\n\"name\": \"Diário de um Banana\",\r\n\"autor\": \"Jeff Kinney\",\r\n\"status\": \"Alugado\",\r\n\"genero\": \"Comédia\"\r\n},\r\n{\r\n\"id\": 2,\r\n\"name\": \"Diario de um Banana 2\",\r\n\"autor\": \"Jeff Kinney\",\r\n\"status\": \"Alugado\",\r\n\"genero\": \"Comédia\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Buscar Emprestimos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxOTM4M2JlLWMzMjQtNzdiNC04MTM1LWI2YWFlNmUzNTYxMCIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzMzMDgyMTM3LCJleHAiOjE3MzMwODc1Mzd9.uD6XPhrGfWkZJ2LQxZfncyzXssTwvS7clsrF8GhnK7g",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3003/rents/buscarEmprestimos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3003",
+							"path": [
+								"rents",
+								"buscarEmprestimos"
+							]
+						},
+						"description": "• EndPoint Buscar Emprestimos do cliente\n\n• Descrição  \nEndpoint para retornar os empréstimos do cliente\n\n• Método  \nMétodo utilizado nesse endpoint é GET\n\n• URL  \n[http://localhost:3003/rents/buscarEmprestimos](http://localhost:3003/rents/buscarEmprestimos)"
+					},
+					"response": [
+						{
+							"name": "Exemplo de Sucesso (200)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxOTM4M2JlLWMzMjQtNzdiNC04MTM1LWI2YWFlNmUzNTYxMCIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzMzMDgyMTM3LCJleHAiOjE3MzMwODc1Mzd9.uD6XPhrGfWkZJ2LQxZfncyzXssTwvS7clsrF8GhnK7g",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3003/rents/buscarEmprestimos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3003",
+									"path": [
+										"rents",
+										"buscarEmprestimos"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Cancelar Emprestimo por ID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxOTM4M2JlLWMzMjQtNzdiNC04MTM1LWI2YWFlNmUzNTYxMCIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzMzMDgyMTM3LCJleHAiOjE3MzMwODc1Mzd9.uD6XPhrGfWkZJ2LQxZfncyzXssTwvS7clsrF8GhnK7g",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3003/rents/cancelarEmprestimo/019383c0-07e7-7400-a15e-3ca3a270fec6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3003",
+							"path": [
+								"rents",
+								"cancelarEmprestimo",
+								"019383c0-07e7-7400-a15e-3ca3a270fec6"
+							]
+						},
+						"description": "• Endpoint Cancelar Emprestimo por ID\n\n• Descrição  \nEndpoint para cancelar empréstimo por ID do livro pelo seu nome da lista de livros alugados do usuário\n\n• Método  \nMétodo utilizado nesse endpoint é DELETE\n\n• URL  \n[http://localhost:3003/rents/cancelarEmprestimo/01937ece-72b2-773a-9820-495c2535c897](http://localhost:3003/rents/cancelarEmprestimo/01937ece-72b2-773a-9820-495c2535c897)\n\n• Parâmetros de consulta  \nNão possui parametro de consulta"
+					},
+					"response": [
+						{
+							"name": "Exemplo de Sucesso (200)",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3003/users/:bookid/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3003",
+									"path": [
+										"users",
+										":bookid",
+										""
+									],
+									"variable": [
+										{
+											"key": "bookid",
+											"value": ""
+										}
+									]
+								},
+								"description": "• Endpoint Deletar livro por id\n\n• Descrição  \nEndpoint para deletar livro pelo seu nome da lista de livros alugados do usuário\n\n• Método  \nMétodo utilizado nesse endpoint é DELETE\n\n• URL  \n/users/:bookid\n\n• Parâmetros de consulta  \nEste endpoint possui o parâmetro de consulta name\n\n• Exemplo de retorno  \n\\- Resposta de Sucesso (200):  \n{  \n\"message\": \"Livro deletado da sua lista com sucesso\"  \n}\n\n\\- Resposta de Erro (404):  \n{  \n\"message\": \"Livro não encontrado\"  \n}"
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "JSON",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Exemplo de Erro (404)",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3003/users/:bookid/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3003",
+									"path": [
+										"users",
+										":bookid",
+										""
+									],
+									"variable": [
+										{
+											"key": "bookid",
+											"value": ""
+										}
+									]
+								},
+								"description": "• Endpoint Deletar livro por id\n\n• Descrição  \nEndpoint para deletar livro pelo seu nome da lista de livros alugados do usuário\n\n• Método  \nMétodo utilizado nesse endpoint é DELETE\n\n• URL  \n/users/:bookid\n\n• Parâmetros de consulta  \nEste endpoint possui o parâmetro de consulta name\n\n• Exemplo de retorno  \n\\- Resposta de Sucesso (200):  \n{  \n\"message\": \"Livro deletado da sua lista com sucesso\"  \n}\n\n\\- Resposta de Erro (404):  \n{  \n\"message\": \"Livro não encontrado\"  \n}"
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "JSON",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n\"message\": \"Emprestimo não encontrado\"\r\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}

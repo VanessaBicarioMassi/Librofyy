@@ -14,7 +14,7 @@ export class RentsController {
         const token = req.headers.authorization;
 
         this.rentsBusiness.realizarEmprestimo(res, token as string, idLivro as string)
-            .then(() => res.status(200).send({ message: "Emprestimo realizado com sucesso" }))
+            .then(() => res.status(201).send({ message: "Emprestimo realizado com sucesso" }))
             .catch((e) => console.log(`${new Date()} - ${e.message}`))
     }
 
